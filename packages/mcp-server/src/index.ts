@@ -255,6 +255,63 @@ server.tool(
   }
 );
 
+// Reopen thought tool - reopen previously resolved items
+server.tool(
+  "reopen_thought",
+  "Reopen a previously resolved thought. Use when an item needs further attention after being marked resolved.",
+  {
+    id: z.string().describe("The thought ID to reopen")
+  },
+  async ({ id }) => {
+    const db = getDatabase();
+    const now = new Date();
+
+    console.error(`[mental-mcp] Reopening thought: ${id}`);
+
+    const items = await db.select()
+      .from(mentalItems)
+      .where(eq(mentalItems.id, id))
+      .limit(1);
+
+    if (items.length === 0) {
+      return {
+        content: [{
+          type: "text",
+          text: `Thought not found: ${id}`
+        }]
+      };
+    }
+
+    const item = items[0];
+
+    if (item.status === "open") {
+      return {
+        content: [{
+          type: "text",
+          text: `Thought is already open: "${item.title}"`
+        }]
+      };
+    }
+
+    await db.update(mentalItems)
+      .set({
+        status: "open",
+        updatedAt: now
+        // Note: Keep resolution and resolvedAt for history
+      })
+      .where(eq(mentalItems.id, id));
+
+    console.error(`[mental-mcp] Reopened: "${item.title}"`);
+
+    return {
+      content: [{
+        type: "text",
+        text: `Reopened: "${item.title}"\nID: ${id}\nPrevious resolution: ${item.resolution || "none"}`
+      }]
+    };
+  }
+);
+
 // Connect to stdio transport
 const transport = new StdioServerTransport();
 await server.connect(transport);
