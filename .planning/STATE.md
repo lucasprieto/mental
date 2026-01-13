@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-13)
 
 **Core value:** Frictionless capture — thoughts get logged without interrupting flow
-**Current focus:** v1.0 MVP complete — ready for user validation
+**Current focus:** v2.0 Cloud Sync — Backend for multi-computer access
 
 ## Current Position
 
-Phase: 6 of 6 (Webapp Features) — Complete
-Plan: All complete
-Status: v1.0 MVP shipped
-Last activity: 2026-01-13 — v1.0 milestone complete
+Phase: 7 of 11 (Backend Setup) — Not started
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-01-13 — Milestone v2.0 created
 
-Progress: ████████████ 100%
+Progress: ██████░░░░░░ 55% (v1.0 complete, v2.0 starting)
 
 ## Performance Metrics
 
@@ -52,8 +52,12 @@ None.
 
 None.
 
+### Roadmap Evolution
+
+- Milestone v2.0 created: Cloud Sync (backend + advanced capture), 5 phases (Phase 7-11)
+
 ## Session Continuity
 
 Last session: 2026-01-13
-Stopped at: v1.0 milestone completed and archived
+Stopped at: Milestone v2.0 initialization
 Resume file: None
