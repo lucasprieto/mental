@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "mental": {
+      "command": "node",
+      "args": ["/Users/lucasosvaldoprieto/lucas/mental/packages/mcp-server/dist/index.js"]
+    }
+  }
+}
