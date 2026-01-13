@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-13)
 
 **Core value:** Frictionless capture — thoughts get logged without interrupting flow
-**Current focus:** Phase 4 in progress — Session Lifecycle
+**Current focus:** Phase 4 complete — Ready for Phase 5 (Webapp Core)
 
 ## Current Position
 
-Phase: 4 of 6 (Session Lifecycle) — In Progress
-Plan: 1 of 2 in current phase
-Status: Plan 04-01 complete
-Last activity: 2026-01-13 — Completed 04-01-PLAN.md
+Phase: 4 of 6 (Session Lifecycle) — Complete
+Plan: 2 of 2 in current phase
+Status: Phase 4 complete
+Last activity: 2026-01-13 — Completed 04-02-PLAN.md
 
-Progress: ██████░░░░ 58%
+Progress: ███████░░░ 67%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: 2.8 min
-- Total execution time: 0.33 hours
+- Total plans completed: 8
+- Average duration: 2.9 min
+- Total execution time: 0.38 hours
 
 **By Phase:**
 
@@ -30,10 +30,10 @@ Progress: ██████░░░░ 58%
 | 1 | 2 | 5 min | 2.5 min |
 | 2 | 2 | 5 min | 2.5 min |
 | 3 | 2 | 7 min | 3.5 min |
-| 4 | 1 | 3 min | 3 min |
+| 4 | 2 | 7 min | 3.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 3 min, 2 min, 4 min, 3 min, 3 min
+- Last 5 plans: 2 min, 4 min, 3 min, 3 min, 4 min
 - Trend: Stable
 
 ## Accumulated Context
@@ -57,6 +57,8 @@ Recent decisions affecting current work:
 - [03-02]: list_thoughts defaults to 10 items, max 50
 - [04-01]: Keep resolution/resolvedAt on reopen for history tracking
 - [04-01]: Validate status before transitions with appropriate messages
+- [04-02]: In-memory session state is intentional (process-scoped, short-lived)
+- [04-02]: Session-linked captures via sessionId field
 
 ### Deferred Issues
 
@@ -73,5 +75,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-13
-Stopped at: Completed 04-01-PLAN.md (Session Lifecycle - Resolve/Reopen tools)
+Stopped at: Completed 04-02-PLAN.md (Session Lifecycle - Session Tracking)
 Resume file: None
