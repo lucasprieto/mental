@@ -2,7 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { getDatabase } from "./db.js";
-import { mentalItems } from "@mental/db";
+import { mentalItems, desc, eq } from "@mental/db";
 import { createId } from "@paralleldrive/cuid2";
 
 /**
@@ -89,6 +89,54 @@ server.tool(
       content: [{
         type: "text",
         text: `Captured: "${title}"\nID: ${id}\nTheme: ${theme || "none"}\nTags: ${tags?.join(", ") || "none"}\nStatus: open`
+      }]
+    };
+  }
+);
+
+// List thoughts tool - retrieves recent captured items
+server.tool(
+  "list_thoughts",
+  "List captured thoughts from your mental database. Returns recent items with their status. Use this to see what's been captured or find a specific thought.",
+  {
+    status: z.enum(["open", "resolved", "all"]).optional().describe("Filter by status (default: all)"),
+    limit: z.number().min(1).max(50).optional().describe("Max items to return (default: 10)")
+  },
+  async ({ status, limit }) => {
+    const db = getDatabase();
+    const maxItems = limit || 10;
+
+    console.error(`[mental-mcp] Listing thoughts: status=${status || "all"}, limit=${maxItems}`);
+
+    const baseQuery = db.select().from(mentalItems);
+
+    const items = status && status !== "all"
+      ? await baseQuery
+          .where(eq(mentalItems.status, status))
+          .orderBy(desc(mentalItems.createdAt))
+          .limit(maxItems)
+      : await baseQuery
+          .orderBy(desc(mentalItems.createdAt))
+          .limit(maxItems);
+
+    if (items.length === 0) {
+      return {
+        content: [{
+          type: "text",
+          text: "No thoughts captured yet."
+        }]
+      };
+    }
+
+    const formatted = items.map(item => {
+      const tags = JSON.parse(item.tags) as string[];
+      return `- [${item.status.toUpperCase()}] ${item.title}\n  ID: ${item.id}\n  Theme: ${item.theme || "none"}\n  Tags: ${tags.join(", ") || "none"}\n  Created: ${item.createdAt.toISOString()}`;
+    }).join("\n\n");
+
+    return {
+      content: [{
+        type: "text",
+        text: `Found ${items.length} thought(s):\n\n${formatted}`
       }]
     };
   }

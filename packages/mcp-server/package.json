@@ -13,6 +13,7 @@
     "@mental/shared": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.0.0",
     "@paralleldrive/cuid2": "^2.2.2",
+    "drizzle-orm": "^0.29.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
