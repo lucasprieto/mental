@@ -2,6 +2,7 @@ import { getDatabase } from "@/lib/db";
 import { mentalItems, desc, eq } from "@mental/db";
 import { ItemList } from "@/components/ItemList";
 import { FilterBar } from "@/components/FilterBar";
+import { DashboardActions } from "@/components/DashboardActions";
 import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
@@ -149,6 +150,9 @@ export default async function Dashboard({ searchParams }: PageProps) {
           emptyMessage={tagsFilter.length > 0 || themeFilter ? "No items match filters" : "No resolved items yet."}
         />
       )}
+
+      {/* Floating action button for quick capture */}
+      <DashboardActions />
     </div>
   );
 }
