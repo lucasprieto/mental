@@ -31,7 +31,7 @@ None
 **Plans**: TBD
 
 Plans:
-- [ ] 01-01: Tech stack decisions and project setup
+- [x] 01-01: Tech stack decisions and project setup
 - [ ] 01-02: Database schema design and setup
 
 ### Phase 2: MCP Server Core
@@ -93,7 +93,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/2 | Not started | - |
+| 1. Foundation | 1/2 | In progress | - |
 | 2. MCP Server Core | 0/2 | Not started | - |
 | 3. Capture Engine | 0/2 | Not started | - |
 | 4. Session Lifecycle | 0/2 | Not started | - |
