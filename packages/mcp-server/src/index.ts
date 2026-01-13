@@ -5,6 +5,10 @@ import { getDatabase } from "./db.js";
 import { mentalItems, desc, eq } from "@mental/db";
 import { createId } from "@paralleldrive/cuid2";
 
+// Session tracking (in-memory for this process)
+let currentSessionId: string | null = null;
+let sessionStartTime: Date | null = null;
+
 /**
  * Extract a theme from content using pattern matching
  * Simple keyword extraction - find most relevant topic
@@ -307,6 +311,37 @@ server.tool(
       content: [{
         type: "text",
         text: `Reopened: "${item.title}"\nID: ${id}\nPrevious resolution: ${item.resolution || "none"}`
+      }]
+    };
+  }
+);
+
+// Start session tool - begins a new capture session
+server.tool(
+  "start_session",
+  "Start a new mental capture session. Items captured after this will be linked to the session. Use at the beginning of a focused work session.",
+  {
+    name: z.string().optional().describe("Optional session name/description")
+  },
+  async ({ name }) => {
+    if (currentSessionId) {
+      return {
+        content: [{
+          type: "text",
+          text: `Session already active: ${currentSessionId}\nStarted: ${sessionStartTime?.toISOString()}\n\nEnd the current session first with end_session.`
+        }]
+      };
+    }
+
+    currentSessionId = createId();
+    sessionStartTime = new Date();
+
+    console.error(`[mental-mcp] Session started: ${currentSessionId}`);
+
+    return {
+      content: [{
+        type: "text",
+        text: `Session started: ${currentSessionId}\n${name ? `Name: ${name}\n` : ""}Time: ${sessionStartTime.toISOString()}\n\nItems captured from now will be linked to this session.`
       }]
     };
   }
