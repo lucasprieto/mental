@@ -20,6 +20,9 @@ importers:
       '@mental/shared':
         specifier: workspace:*
         version: link:../shared
+      '@paralleldrive/cuid2':
+        specifier: ^2.3.1
+        version: 2.3.1
       better-sqlite3:
         specifier: ^9.2.0
         version: 9.6.0

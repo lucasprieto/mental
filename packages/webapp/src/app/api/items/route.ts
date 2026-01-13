@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDatabase } from "@/lib/db";
-import { mentalItems } from "@mental/db";
-import { createId } from "@paralleldrive/cuid2";
+import { mentalItems, createId } from "@mental/db";
 
 export async function POST(request: NextRequest) {
   try {

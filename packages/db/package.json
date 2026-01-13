@@ -12,11 +12,12 @@
   },
   "dependencies": {
     "@mental/shared": "workspace:*",
-    "drizzle-orm": "^0.29.0",
-    "better-sqlite3": "^9.2.0"
+    "@paralleldrive/cuid2": "^2.3.1",
+    "better-sqlite3": "^9.2.0",
+    "drizzle-orm": "^0.29.0"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.20.0",
-    "@types/better-sqlite3": "^7.6.0"
+    "@types/better-sqlite3": "^7.6.0",
+    "drizzle-kit": "^0.20.0"
   }
 }

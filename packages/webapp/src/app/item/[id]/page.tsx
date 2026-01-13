@@ -22,7 +22,10 @@ export default async function ItemDetail({ params }: PageProps) {
     notFound();
   }
 
-  const item = items[0];
+  const item = {
+    ...items[0],
+    status: items[0].status as "open" | "resolved",
+  };
 
   return <ItemDetailClient item={item} />;
 }
