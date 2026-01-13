@@ -32,7 +32,7 @@ None
 
 Plans:
 - [x] 01-01: Tech stack decisions and project setup
-- [ ] 01-02: Database schema design and setup
+- [x] 01-02: Database schema design and setup
 
 ### Phase 2: MCP Server Core
 **Goal**: Working MCP server that Claude Code and Cursor can discover and connect to
@@ -93,7 +93,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 1/2 | In progress | - |
+| 1. Foundation | 2/2 | Complete | 2026-01-13 |
 | 2. MCP Server Core | 0/2 | Not started | - |
 | 3. Capture Engine | 0/2 | Not started | - |
 | 4. Session Lifecycle | 0/2 | Not started | - |
