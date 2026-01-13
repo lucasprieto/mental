@@ -50,7 +50,7 @@ Plans:
 
 **Milestone Goal:** Backend for multi-computer access with advanced capture improvements
 
-- [ ] **Phase 7: Backend Setup** - API server with database hosting
+- [x] **Phase 7: Backend Setup** - API server with database hosting
 - [ ] **Phase 8: Data Sync** - Migrate from local SQLite to hosted database
 - [ ] **Phase 9: MCP Server Sync** - Update MCP server to use remote API
 - [ ] **Phase 10: Webapp Sync** - Update webapp to use remote API
@@ -64,8 +64,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 07-01: API package setup with Hono and Neon database connection
-- [ ] 07-02: API routes for items and sessions CRUD
+- [x] 07-01: API package setup with Hono and Neon database connection
+- [x] 07-02: API routes for items and sessions CRUD
 
 #### Phase 8: Data Sync
 
@@ -121,7 +121,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 4. Session Lifecycle | v1.0 | 2/2 | Complete | 2026-01-13 |
 | 5. Webapp Core | v1.0 | 3/3 | Complete | 2026-01-13 |
 | 6. Webapp Features | v1.0 | 2/2 | Complete | 2026-01-13 |
-| 7. Backend Setup | v2.0 | 0/2 | Planned | - |
+| 7. Backend Setup | v2.0 | 2/2 | Complete | 2026-01-13 |
 | 8. Data Sync | v2.0 | 0/? | Not started | - |
 | 9. MCP Server Sync | v2.0 | 0/? | Not started | - |
 | 10. Webapp Sync | v2.0 | 0/? | Not started | - |
