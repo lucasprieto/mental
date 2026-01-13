@@ -18,7 +18,7 @@ None
 - [x] **Phase 2: MCP Server Core** - Basic MCP server for Claude Code/Cursor
 - [x] **Phase 3: Capture Engine** - Auto-extraction and explicit tagging
 - [x] **Phase 4: Session Lifecycle** - Open/resolved tracking with sessions
-- [ ] **Phase 5: Webapp Core** - Dashboard and item viewing
+- [x] **Phase 5: Webapp Core** - Dashboard and item viewing
 - [ ] **Phase 6: Webapp Features** - Search, filter, manual entry
 
 ## Phase Details
@@ -72,9 +72,9 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 05-01: Webapp setup and routing
-- [ ] 05-02: Dashboard view
-- [ ] 05-03: Item detail view
+- [x] 05-01: Webapp setup and routing
+- [x] 05-02: Dashboard view
+- [x] 05-03: Item detail view
 
 ### Phase 6: Webapp Features
 **Goal**: Search and filter (keyword, tag, date, status), manual entry/editing directly in webapp
@@ -97,5 +97,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. MCP Server Core | 2/2 | Complete | 2026-01-13 |
 | 3. Capture Engine | 2/2 | Complete | 2026-01-13 |
 | 4. Session Lifecycle | 2/2 | Complete | 2026-01-13 |
-| 5. Webapp Core | 0/3 | Not started | - |
+| 5. Webapp Core | 3/3 | Complete | 2026-01-13 |
 | 6. Webapp Features | 0/2 | Not started | - |
