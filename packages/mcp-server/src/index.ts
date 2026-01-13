@@ -351,6 +351,62 @@ server.tool(
   }
 );
 
+// End session tool - summarizes and clears session
+server.tool(
+  "end_session",
+  "End the current capture session. Shows summary of items captured during the session.",
+  {},
+  async () => {
+    if (!currentSessionId) {
+      return {
+        content: [{
+          type: "text",
+          text: "No active session. Start one with start_session."
+        }]
+      };
+    }
+
+    const db = getDatabase();
+    const sessionId = currentSessionId;
+    const startTime = sessionStartTime;
+
+    // Get items from this session
+    const items = await db.select()
+      .from(mentalItems)
+      .where(eq(mentalItems.sessionId, sessionId))
+      .orderBy(desc(mentalItems.createdAt));
+
+    // Clear session state
+    currentSessionId = null;
+    sessionStartTime = null;
+
+    console.error(`[mental-mcp] Session ended: ${sessionId}`);
+
+    if (items.length === 0) {
+      return {
+        content: [{
+          type: "text",
+          text: `Session ended: ${sessionId}\nStarted: ${startTime?.toISOString()}\nEnded: ${new Date().toISOString()}\n\nNo items were captured during this session.`
+        }]
+      };
+    }
+
+    const openItems = items.filter(i => i.status === "open");
+    const resolvedItems = items.filter(i => i.status === "resolved");
+
+    const itemList = items.map(item => {
+      return `- [${item.status.toUpperCase()}] ${item.title} (${item.id})`;
+    }).join("\n");
+
+    return {
+      content: [{
+        type: "text",
+        text: `Session ended: ${sessionId}\nStarted: ${startTime?.toISOString()}\nEnded: ${new Date().toISOString()}\n\n## Items Captured: ${items.length}\n- Open: ${openItems.length}\n- Resolved: ${resolvedItems.length}\n\n${itemList}${openItems.length > 0 ? "\n\nUse resolve_thought to mark items as resolved." : ""}`
+      }]
+    };
+  }
+);
+
 // Connect to stdio transport
 const transport = new StdioServerTransport();
 await server.connect(transport);
