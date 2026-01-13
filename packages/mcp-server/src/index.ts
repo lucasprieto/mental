@@ -194,6 +194,67 @@ ${item.resolution ? `## Resolution\n\n${item.resolution}` : ""}`
   }
 );
 
+// Resolve thought tool - mark items as resolved with summary
+server.tool(
+  "resolve_thought",
+  "Mark a captured thought as resolved. Use when an item has been addressed, completed, or is no longer relevant. Provide a brief resolution summary.",
+  {
+    id: z.string().describe("The thought ID to resolve"),
+    resolution: z.string().describe("Brief summary of how this was resolved or why it's no longer relevant")
+  },
+  async ({ id, resolution }) => {
+    const db = getDatabase();
+    const now = new Date();
+
+    console.error(`[mental-mcp] Resolving thought: ${id}`);
+
+    // First check if item exists and is open
+    const items = await db.select()
+      .from(mentalItems)
+      .where(eq(mentalItems.id, id))
+      .limit(1);
+
+    if (items.length === 0) {
+      return {
+        content: [{
+          type: "text",
+          text: `Thought not found: ${id}`
+        }]
+      };
+    }
+
+    const item = items[0];
+
+    if (item.status === "resolved") {
+      return {
+        content: [{
+          type: "text",
+          text: `Thought already resolved: "${item.title}"\nResolved at: ${item.resolvedAt?.toISOString()}\nResolution: ${item.resolution}`
+        }]
+      };
+    }
+
+    // Update to resolved
+    await db.update(mentalItems)
+      .set({
+        status: "resolved",
+        resolution,
+        resolvedAt: now,
+        updatedAt: now
+      })
+      .where(eq(mentalItems.id, id));
+
+    console.error(`[mental-mcp] Resolved: "${item.title}"`);
+
+    return {
+      content: [{
+        type: "text",
+        text: `Resolved: "${item.title}"\nID: ${id}\nResolution: ${resolution}\nResolved at: ${now.toISOString()}`
+      }]
+    };
+  }
+);
+
 // Connect to stdio transport
 const transport = new StdioServerTransport();
 await server.connect(transport);
