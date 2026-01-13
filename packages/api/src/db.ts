@@ -1,6 +1,18 @@
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
-import { pg as schema } from "@mental/db";
+import { getDbPg } from "@mental/db";
 
-const sql = neon(process.env.DATABASE_URL!);
-export const db = drizzle(sql, { schema });
+// Lazy initialization - db is created on first access
+let _db: ReturnType<typeof getDbPg> | null = null;
+
+export function getDb() {
+  if (!_db) {
+    _db = getDbPg();
+  }
+  return _db;
+}
+
+// For backwards compatibility with existing code
+export const db = {
+  get instance() {
+    return getDb();
+  },
+};

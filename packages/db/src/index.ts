@@ -6,9 +6,13 @@ export type { MentalItemRow, NewMentalItemRow } from "./schema";
 export * as pg from "./schema-pg";
 export type { MentalItemRowPg, NewMentalItemRowPg } from "./schema-pg";
 
-// Client exports
+// Client exports (SQLite)
 export { getDb } from "./client";
 export type { DbClient } from "./client";
+
+// Client exports (Postgres)
+export { getDbPg } from "./client-pg";
+export type { DbClientPg } from "./client-pg";
 
 // Re-export drizzle-orm utilities to avoid version conflicts in consumers
 export { desc, eq } from "drizzle-orm";
