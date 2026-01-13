@@ -19,7 +19,7 @@ None
 - [x] **Phase 3: Capture Engine** - Auto-extraction and explicit tagging
 - [x] **Phase 4: Session Lifecycle** - Open/resolved tracking with sessions
 - [x] **Phase 5: Webapp Core** - Dashboard and item viewing
-- [ ] **Phase 6: Webapp Features** - Search, filter, manual entry
+- [x] **Phase 6: Webapp Features** - Search, filter, manual entry
 
 ## Phase Details
 
@@ -84,7 +84,7 @@ Plans:
 
 Plans:
 - [x] 06-01: Search and filter functionality
-- [ ] 06-02: Manual entry and editing
+- [x] 06-02: Manual entry and editing
 
 ## Progress
 
@@ -98,4 +98,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Capture Engine | 2/2 | Complete | 2026-01-13 |
 | 4. Session Lifecycle | 2/2 | Complete | 2026-01-13 |
 | 5. Webapp Core | 3/3 | Complete | 2026-01-13 |
-| 6. Webapp Features | 1/2 | In progress | - |
+| 6. Webapp Features | 2/2 | Complete | 2026-01-13 |
