@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-13)
 
 **Core value:** Frictionless capture — thoughts get logged without interrupting flow
-**Current focus:** Phase 5 complete — Webapp Core
+**Current focus:** Phase 6 in progress — Webapp Features
 
 ## Current Position
 
-Phase: 5 of 6 (Webapp Core) — Complete
-Plan: 3 of 3 in current phase
-Status: Phase 5 complete
-Last activity: 2026-01-13 — Completed 05-03-PLAN.md
+Phase: 6 of 6 (Webapp Features) — In progress
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-01-13 — Completed 06-01-PLAN.md
 
-Progress: █████████░ 83%
+Progress: ████████████░ 92%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
-- Average duration: 3.0 min
-- Total execution time: 0.55 hours
+- Total plans completed: 12
+- Average duration: 2.8 min
+- Total execution time: 0.58 hours
 
 **By Phase:**
 
@@ -32,9 +32,10 @@ Progress: █████████░ 83%
 | 3 | 2 | 7 min | 3.5 min |
 | 4 | 2 | 7 min | 3.5 min |
 | 5 | 3 | 10 min | 3.3 min |
+| 6 | 1 | 2 min | 2.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 3 min, 4 min, 3 min, 4 min, 3 min
+- Last 5 plans: 4 min, 3 min, 4 min, 3 min, 2 min
 - Trend: Stable
 
 ## Accumulated Context
@@ -67,6 +68,8 @@ Recent decisions affecting current work:
 - [05-02]: Top 10 tags shown based on frequency count
 - [05-03]: notFound() from next/navigation for 404 handling
 - [05-03]: Dynamic route params as Promise<{ id: string }> with await
+- [06-01]: URL params for filtering (shareable/bookmarkable)
+- [06-01]: AND logic for tag filtering
 
 ### Deferred Issues
 
@@ -83,5 +86,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-13
-Stopped at: Completed 05-03-PLAN.md (Webapp Core - Item Detail View)
+Stopped at: Completed 06-01-PLAN.md (Webapp Features - Filter Bar)
 Resume file: None

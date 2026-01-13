@@ -83,7 +83,7 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 06-01: Search and filter functionality
+- [x] 06-01: Search and filter functionality
 - [ ] 06-02: Manual entry and editing
 
 ## Progress
@@ -98,4 +98,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Capture Engine | 2/2 | Complete | 2026-01-13 |
 | 4. Session Lifecycle | 2/2 | Complete | 2026-01-13 |
 | 5. Webapp Core | 3/3 | Complete | 2026-01-13 |
-| 6. Webapp Features | 0/2 | Not started | - |
+| 6. Webapp Features | 1/2 | In progress | - |
