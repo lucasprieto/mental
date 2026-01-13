@@ -16,7 +16,7 @@ None
 
 - [x] **Phase 1: Foundation** - Project setup, tech stack, database schema
 - [x] **Phase 2: MCP Server Core** - Basic MCP server for Claude Code/Cursor
-- [ ] **Phase 3: Capture Engine** - Auto-extraction and explicit tagging
+- [x] **Phase 3: Capture Engine** - Auto-extraction and explicit tagging
 - [ ] **Phase 4: Session Lifecycle** - Open/resolved tracking with sessions
 - [ ] **Phase 5: Webapp Core** - Dashboard and item viewing
 - [ ] **Phase 6: Webapp Features** - Search, filter, manual entry
@@ -52,8 +52,8 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 03-01: Capture tool with theme extraction
-- [ ] 03-02: Explicit tagging support
+- [x] 03-01: Capture tool with theme extraction
+- [x] 03-02: List and query tools
 
 ### Phase 4: Session Lifecycle
 **Goal**: Items have lifecycle (open → resolved), session-aware resolution with summaries
@@ -95,7 +95,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete | 2026-01-13 |
 | 2. MCP Server Core | 2/2 | Complete | 2026-01-13 |
-| 3. Capture Engine | 0/2 | Not started | - |
+| 3. Capture Engine | 2/2 | Complete | 2026-01-13 |
 | 4. Session Lifecycle | 0/2 | Not started | - |
 | 5. Webapp Core | 0/3 | Not started | - |
 | 6. Webapp Features | 0/2 | Not started | - |
