@@ -60,12 +60,12 @@ Plans:
 
 **Goal**: Set up hosted API server and database for multi-computer access
 **Depends on**: v1.0 complete
-**Research**: Likely (hosting options, API framework)
-**Research topics**: Hosting options (Railway/Fly/Vercel), API framework (tRPC/Hono/Express), database hosting
-**Plans**: TBD
+**Research**: Complete (Hono + Neon Postgres + Railway)
+**Plans**: 2 plans
 
 Plans:
-- [ ] 07-01: TBD (run /gsd:plan-phase 7 to break down)
+- [ ] 07-01: API package setup with Hono and Neon database connection
+- [ ] 07-02: API routes for items and sessions CRUD
 
 #### Phase 8: Data Sync
 
@@ -121,7 +121,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 4. Session Lifecycle | v1.0 | 2/2 | Complete | 2026-01-13 |
 | 5. Webapp Core | v1.0 | 3/3 | Complete | 2026-01-13 |
 | 6. Webapp Features | v1.0 | 2/2 | Complete | 2026-01-13 |
-| 7. Backend Setup | v2.0 | 0/? | Not started | - |
+| 7. Backend Setup | v2.0 | 0/2 | Planned | - |
 | 8. Data Sync | v2.0 | 0/? | Not started | - |
 | 9. MCP Server Sync | v2.0 | 0/? | Not started | - |
 | 10. Webapp Sync | v2.0 | 0/? | Not started | - |
