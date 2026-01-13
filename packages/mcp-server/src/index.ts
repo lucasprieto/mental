@@ -75,6 +75,9 @@ server.tool(
     console.error(`[mental-mcp] Capturing: "${title}"`);
     console.error(`[mental-mcp] Theme extracted: ${theme || "none"}`);
     console.error(`[mental-mcp] Tags: ${tags?.join(", ") || "none"}`);
+    if (currentSessionId) {
+      console.error(`[mental-mcp] Session: ${currentSessionId}`);
+    }
 
     await db.insert(mentalItems).values({
       id,
@@ -83,6 +86,7 @@ server.tool(
       tags: JSON.stringify(tags || []),
       theme,
       status: "open",
+      sessionId: currentSessionId,
       createdAt: now,
       updatedAt: now,
     });
@@ -92,7 +96,7 @@ server.tool(
     return {
       content: [{
         type: "text",
-        text: `Captured: "${title}"\nID: ${id}\nTheme: ${theme || "none"}\nTags: ${tags?.join(", ") || "none"}\nStatus: open`
+        text: `Captured: "${title}"\nID: ${id}\nTheme: ${theme || "none"}\nTags: ${tags?.join(", ") || "none"}\nStatus: open${currentSessionId ? `\nSession: ${currentSessionId}` : ""}`
       }]
     };
   }
