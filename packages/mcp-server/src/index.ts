@@ -1,6 +1,39 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import { getDatabase } from "./db.js";
+import { mentalItems } from "@mental/db";
+import { createId } from "@paralleldrive/cuid2";
+
+/**
+ * Extract a theme from content using pattern matching
+ * Simple keyword extraction - find most relevant topic
+ */
+function extractTheme(content: string): string | null {
+  // Look for patterns like "about X", "regarding X", "for X project"
+  const patterns = [
+    /(?:about|regarding|for|on)\s+(?:the\s+)?([a-zA-Z0-9-]+(?:\s+[a-zA-Z0-9-]+)?)/i,
+    /([a-zA-Z0-9-]+)\s+(?:project|feature|issue|bug|task|ticket)/i,
+  ];
+
+  for (const pattern of patterns) {
+    const match = content.match(pattern);
+    if (match && match[1]) {
+      return match[1].toLowerCase().trim();
+    }
+  }
+
+  // Fallback: extract first significant word (skip common words)
+  const stopWords = new Set(['the', 'a', 'an', 'is', 'are', 'was', 'were', 'i', 'we', 'you', 'need', 'to', 'should', 'must', 'can', 'will']);
+  const words = content.toLowerCase().split(/\s+/);
+  for (const word of words) {
+    if (word.length > 3 && !stopWords.has(word)) {
+      return word;
+    }
+  }
+
+  return null;
+}
 
 const server = new McpServer({
   name: "mental-mcp",
@@ -20,7 +53,7 @@ server.tool(
   }
 );
 
-// Capture thought tool - stub until Phase 3 database integration
+// Capture thought tool - persists to SQLite database
 server.tool(
   "capture_thought",
   "Capture a thought or topic to your mental database. Use this when the user mentions something they want to remember, track, or come back to later.",
@@ -30,16 +63,32 @@ server.tool(
     tags: z.array(z.string()).optional().describe("Optional tags for categorization")
   },
   async ({ title, content, tags }) => {
-    console.error(`[mental-mcp] Capturing thought: "${title}"`);
-    console.error(`[mental-mcp] Content: ${content.substring(0, 100)}...`);
+    const db = getDatabase();
+    const now = new Date();
+    const theme = extractTheme(content);
+    const id = createId();
+
+    console.error(`[mental-mcp] Capturing: "${title}"`);
+    console.error(`[mental-mcp] Theme extracted: ${theme || "none"}`);
     console.error(`[mental-mcp] Tags: ${tags?.join(", ") || "none"}`);
 
-    // TODO: Phase 3 will add actual database persistence
+    await db.insert(mentalItems).values({
+      id,
+      title,
+      content,
+      tags: JSON.stringify(tags || []),
+      theme,
+      status: "open",
+      createdAt: now,
+      updatedAt: now,
+    });
+
+    console.error(`[mental-mcp] Saved with ID: ${id}`);
 
     return {
       content: [{
         type: "text",
-        text: `Captured thought: "${title}"\n\nThis thought has been logged. (Note: Database persistence coming in Phase 3)`
+        text: `Captured: "${title}"\nID: ${id}\nTheme: ${theme || "none"}\nTags: ${tags?.join(", ") || "none"}\nStatus: open`
       }]
     };
   }
