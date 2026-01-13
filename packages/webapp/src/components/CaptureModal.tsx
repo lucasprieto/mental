@@ -60,8 +60,13 @@ export function CaptureModal({ isOpen, onClose }: CaptureModalProps) {
       });
 
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || "Failed to create item");
+        const contentType = response.headers.get("content-type");
+        if (contentType?.includes("application/json")) {
+          const data = await response.json();
+          throw new Error(data.error || "Failed to create item");
+        } else {
+          throw new Error(`Server error: ${response.status} ${response.statusText}`);
+        }
       }
 
       // Success - refresh and close

@@ -2,17 +2,24 @@
 
 ## Overview
 
-Build a personal mind centralization system in six phases: foundation and tech stack, MCP server that connects to Claude Code/Cursor, capture engine for automatic theme extraction and explicit tagging, session lifecycle tracking (open → resolved), webapp for viewing and managing items, and finally search/filter/manual entry features.
+Build a personal mind centralization system: MCP server that connects to Claude Code/Cursor for frictionless thought capture, with a webapp for viewing and managing items.
 
 ## Domain Expertise
 
 None
+
+## Milestones
+
+- ✅ [**v1.0 MVP**](milestones/v1.0-ROADMAP.md) - Phases 1-6 (shipped 2026-01-13)
 
 ## Phases
 
 **Phase Numbering:**
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+
+<details>
+<summary>✅ v1.0 MVP (Phases 1-6) - SHIPPED 2026-01-13</summary>
 
 - [x] **Phase 1: Foundation** - Project setup, tech stack, database schema
 - [x] **Phase 2: MCP Server Core** - Basic MCP server for Claude Code/Cursor
@@ -21,81 +28,33 @@ None
 - [x] **Phase 5: Webapp Core** - Dashboard and item viewing
 - [x] **Phase 6: Webapp Features** - Search, filter, manual entry
 
-## Phase Details
-
-### Phase 1: Foundation
-**Goal**: Establish project structure, choose tech stack, design database schema for mental items
-**Depends on**: Nothing (first phase)
-**Research**: Likely (tech stack decisions, MCP protocol basics)
-**Research topics**: MCP protocol specification, recommended stack for MCP servers, database options
-**Plans**: TBD
-
 Plans:
 - [x] 01-01: Tech stack decisions and project setup
 - [x] 01-02: Database schema design and setup
-
-### Phase 2: MCP Server Core
-**Goal**: Working MCP server that Claude Code and Cursor can discover and connect to
-**Depends on**: Phase 1
-**Research**: Likely (MCP protocol, tool registration, Claude Code integration)
-**Research topics**: MCP server implementation, tool schemas, how Cursor/Claude Code discover MCP servers
-**Plans**: TBD
-
-Plans:
 - [x] 02-01: Basic MCP server with health check
 - [x] 02-02: Tool registration and connection testing
-
-### Phase 3: Capture Engine
-**Goal**: MCP tools that capture thoughts — auto-extract themes from context, support explicit tags
-**Depends on**: Phase 2
-**Research**: Unlikely (building on established MCP patterns)
-**Plans**: TBD
-
-Plans:
 - [x] 03-01: Capture tool with theme extraction
 - [x] 03-02: List and query tools
-
-### Phase 4: Session Lifecycle
-**Goal**: Items have lifecycle (open → resolved), session-aware resolution with summaries
-**Depends on**: Phase 3
-**Research**: Unlikely (internal patterns)
-**Plans**: TBD
-
-Plans:
 - [x] 04-01: Item lifecycle states and transitions
 - [x] 04-02: Session-aware resolution with summaries
-
-### Phase 5: Webapp Core
-**Goal**: Web interface showing dashboard with open items, recently resolved, themes/tags at a glance
-**Depends on**: Phase 4
-**Research**: Unlikely (standard webapp patterns)
-**Plans**: TBD
-
-Plans:
 - [x] 05-01: Webapp setup and routing
 - [x] 05-02: Dashboard view
 - [x] 05-03: Item detail view
-
-### Phase 6: Webapp Features
-**Goal**: Search and filter (keyword, tag, date, status), manual entry/editing directly in webapp
-**Depends on**: Phase 5
-**Research**: Unlikely (standard webapp patterns)
-**Plans**: TBD
-
-Plans:
 - [x] 06-01: Search and filter functionality
 - [x] 06-02: Manual entry and editing
+
+</details>
 
 ## Progress
 
 **Execution Order:**
 Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Foundation | 2/2 | Complete | 2026-01-13 |
-| 2. MCP Server Core | 2/2 | Complete | 2026-01-13 |
-| 3. Capture Engine | 2/2 | Complete | 2026-01-13 |
-| 4. Session Lifecycle | 2/2 | Complete | 2026-01-13 |
-| 5. Webapp Core | 3/3 | Complete | 2026-01-13 |
-| 6. Webapp Features | 2/2 | Complete | 2026-01-13 |
+| Phase | Milestone | Plans Complete | Status | Completed |
+|-------|-----------|----------------|--------|-----------|
+| 1. Foundation | v1.0 | 2/2 | Complete | 2026-01-13 |
+| 2. MCP Server Core | v1.0 | 2/2 | Complete | 2026-01-13 |
+| 3. Capture Engine | v1.0 | 2/2 | Complete | 2026-01-13 |
+| 4. Session Lifecycle | v1.0 | 2/2 | Complete | 2026-01-13 |
+| 5. Webapp Core | v1.0 | 3/3 | Complete | 2026-01-13 |
+| 6. Webapp Features | v1.0 | 2/2 | Complete | 2026-01-13 |

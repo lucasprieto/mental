@@ -8,21 +8,34 @@ A personal "mind centralization" system for a Tech Lead who context-switches con
 
 Frictionless capture — thoughts get logged without interrupting flow. If this doesn't feel seamless, nothing else matters.
 
+## Current State (v1.0)
+
+Shipped v1.0 MVP with 3,269 lines of TypeScript.
+
+**Tech stack:** pnpm monorepo, TypeScript, SQLite + Drizzle ORM, MCP SDK v1.x, Next.js 15, React 19, Tailwind CSS
+
+**What's working:**
+- MCP server with 8 tools for thought capture and lifecycle management
+- Automatic theme extraction from content
+- Session tracking (start_session, end_session)
+- Webapp dashboard with filtering by status/tag/theme
+- Manual entry and editing via webapp
+
 ## Requirements
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ MCP server that integrates with Claude Code and Cursor — v1.0
+- ✓ Auto-extract themes/topics from prompts — v1.0
+- ✓ Explicit tagging support — v1.0
+- ✓ Session-aware resolution tracking (open → resolved with summary) — v1.0
+- ✓ Webapp dashboard showing open items, recently resolved, themes/tags — v1.0
+- ✓ Search and filter by keyword, tag, date, status — v1.0 (status/tag/theme filters)
+- ✓ Manual entry/editing directly in webapp — v1.0
 
 ### Active
 
-- [ ] MCP server that integrates with Claude Code and Cursor
-- [ ] Auto-extract themes/topics from prompts
-- [ ] Explicit tagging support ("log this: ...")
-- [ ] Session-aware resolution tracking (open → resolved with summary)
-- [ ] Webapp dashboard showing open items, recently resolved, themes/tags
-- [ ] Search and filter by keyword, tag, date, status
-- [ ] Manual entry/editing directly in webapp
+(None — v1.0 complete, awaiting user validation)
 
 ### Out of Scope
 
@@ -44,9 +57,16 @@ The MCP integration is strategic: capture happens where work happens (in the IDE
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| MCP as primary capture mechanism | Capture where work happens, zero friction | — Pending |
-| Session-aware resolution | Items have lifecycle, not just dumped | — Pending |
-| Personal-only for v1 | Ship fast, validate core value before adding complexity | — Pending |
+| MCP as primary capture mechanism | Capture where work happens, zero friction | ✓ Good |
+| Session-aware resolution | Items have lifecycle, not just dumped | ✓ Good |
+| Personal-only for v1 | Ship fast, validate core value before adding complexity | ✓ Good |
+| pnpm monorepo | Fast, good monorepo support | ✓ Good |
+| SQLite + Drizzle ORM | Simple, local-first, type-safe | ✓ Good |
+| @modelcontextprotocol/sdk v1.x | Stable SDK, not pre-alpha v2 | ✓ Good |
+| console.error for MCP logging | Avoid corrupting stdio protocol | ✓ Good |
+| cuid2 for IDs | URL-safe, shorter than UUID | ✓ Good |
+| Next.js 15 + React 19 | Latest stable, good server components | ✓ Good |
+| URL params for filtering | Shareable/bookmarkable filter states | ✓ Good |
 
 ---
-*Last updated: 2026-01-13 after initialization*
+*Last updated: 2026-01-13 after v1.0 milestone*
