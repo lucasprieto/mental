@@ -1,6 +1,10 @@
-// Schema exports
+// Schema exports (SQLite - for MCP server local use)
 export { mentalItems } from "./schema";
 export type { MentalItemRow, NewMentalItemRow } from "./schema";
+
+// Postgres schema exports (for API server)
+export * as pg from "./schema-pg";
+export type { MentalItemRowPg, NewMentalItemRowPg } from "./schema-pg";
 
 // Client exports
 export { getDb } from "./client";
