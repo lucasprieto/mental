@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-13)
 
 **Core value:** Frictionless capture — thoughts get logged without interrupting flow
-**Current focus:** Phase 5 in progress — Webapp Core
+**Current focus:** Phase 5 complete — Webapp Core
 
 ## Current Position
 
-Phase: 5 of 6 (Webapp Core) — In Progress
-Plan: 1 of 2 in current phase
-Status: Plan 05-01 complete
-Last activity: 2026-01-13 — Completed 05-01-PLAN.md
+Phase: 5 of 6 (Webapp Core) — Complete
+Plan: 2 of 2 in current phase
+Status: Plan 05-02 complete
+Last activity: 2026-01-13 — Completed 05-02-PLAN.md
 
-Progress: ████████░░ 75%
+Progress: █████████░ 83%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
-- Average duration: 2.9 min
-- Total execution time: 0.43 hours
+- Total plans completed: 10
+- Average duration: 3.0 min
+- Total execution time: 0.50 hours
 
 **By Phase:**
 
@@ -31,10 +31,10 @@ Progress: ████████░░ 75%
 | 2 | 2 | 5 min | 2.5 min |
 | 3 | 2 | 7 min | 3.5 min |
 | 4 | 2 | 7 min | 3.5 min |
-| 5 | 1 | 3 min | 3 min |
+| 5 | 2 | 7 min | 3.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 4 min, 3 min, 3 min, 4 min, 3 min
+- Last 5 plans: 3 min, 3 min, 4 min, 3 min, 4 min
 - Trend: Stable
 
 ## Accumulated Context
@@ -63,6 +63,8 @@ Recent decisions affecting current work:
 - [05-01]: Next.js 15 with serverExternalPackages for better-sqlite3
 - [05-01]: Port 3001 for webapp dev server
 - [05-01]: force-dynamic for database-connected pages
+- [05-02]: Integer timestamps converted to Date for display formatting
+- [05-02]: Top 10 tags shown based on frequency count
 
 ### Deferred Issues
 
@@ -79,5 +81,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-13
-Stopped at: Completed 05-01-PLAN.md (Webapp Core - Next.js Setup)
+Stopped at: Completed 05-02-PLAN.md (Webapp Core - Dashboard View)
 Resume file: None
