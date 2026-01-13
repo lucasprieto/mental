@@ -14,8 +14,8 @@ None
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
-- [ ] **Phase 1: Foundation** - Project setup, tech stack, database schema
-- [ ] **Phase 2: MCP Server Core** - Basic MCP server for Claude Code/Cursor
+- [x] **Phase 1: Foundation** - Project setup, tech stack, database schema
+- [x] **Phase 2: MCP Server Core** - Basic MCP server for Claude Code/Cursor
 - [ ] **Phase 3: Capture Engine** - Auto-extraction and explicit tagging
 - [ ] **Phase 4: Session Lifecycle** - Open/resolved tracking with sessions
 - [ ] **Phase 5: Webapp Core** - Dashboard and item viewing
@@ -42,8 +42,8 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 02-01: Basic MCP server with health check
-- [ ] 02-02: Tool registration and connection testing
+- [x] 02-01: Basic MCP server with health check
+- [x] 02-02: Tool registration and connection testing
 
 ### Phase 3: Capture Engine
 **Goal**: MCP tools that capture thoughts — auto-extract themes from context, support explicit tags
@@ -94,7 +94,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete | 2026-01-13 |
-| 2. MCP Server Core | 0/2 | Not started | - |
+| 2. MCP Server Core | 2/2 | Complete | 2026-01-13 |
 | 3. Capture Engine | 0/2 | Not started | - |
 | 4. Session Lifecycle | 0/2 | Not started | - |
 | 5. Webapp Core | 0/3 | Not started | - |
