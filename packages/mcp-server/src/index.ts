@@ -142,6 +142,58 @@ server.tool(
   }
 );
 
+// Get thought tool - retrieves a specific item by ID
+server.tool(
+  "get_thought",
+  "Get details of a specific thought by its ID. Use this to see full content of a captured thought.",
+  {
+    id: z.string().describe("The thought ID (returned when captured)")
+  },
+  async ({ id }) => {
+    const db = getDatabase();
+
+    console.error(`[mental-mcp] Getting thought: ${id}`);
+
+    const items = await db.select()
+      .from(mentalItems)
+      .where(eq(mentalItems.id, id))
+      .limit(1);
+
+    if (items.length === 0) {
+      return {
+        content: [{
+          type: "text",
+          text: `Thought not found: ${id}`
+        }]
+      };
+    }
+
+    const item = items[0];
+    const tags = JSON.parse(item.tags) as string[];
+
+    return {
+      content: [{
+        type: "text",
+        text: `# ${item.title}
+
+**ID:** ${item.id}
+**Status:** ${item.status}
+**Theme:** ${item.theme || "none"}
+**Tags:** ${tags.join(", ") || "none"}
+**Created:** ${item.createdAt.toISOString()}
+**Updated:** ${item.updatedAt.toISOString()}
+${item.resolvedAt ? `**Resolved:** ${item.resolvedAt.toISOString()}` : ""}
+
+## Content
+
+${item.content}
+
+${item.resolution ? `## Resolution\n\n${item.resolution}` : ""}`
+      }]
+    };
+  }
+);
+
 // Connect to stdio transport
 const transport = new StdioServerTransport();
 await server.connect(transport);
