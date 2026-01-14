@@ -11,7 +11,8 @@
     "next": "^15.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@mental/db": "workspace:*"
+    "@mental/api": "workspace:*",
+    "hono": "^4.6.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
