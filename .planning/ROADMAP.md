@@ -100,13 +100,14 @@ Plans:
 
 #### Phase 11: Advanced Capture
 
-**Goal**: Improved theme extraction, context awareness, smart tagging
-**Depends on**: Phase 9
-**Research**: Unlikely (internal patterns, regex improvements)
-**Plans**: TBD
+**Goal**: Sentiment/urgency detection, project context, auto-tagging
+**Depends on**: Phase 10
+**Research**: Complete (user requirements gathered)
+**Plans**: 2 plans
 
 Plans:
-- [ ] 11-01: TBD
+- [x] 11-01: Enhanced theme extraction with sentiment detection
+- [ ] 11-02: Project context and auto-tagging
 
 ## Progress
 
@@ -125,4 +126,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 8. Data Sync | v2.0 | 2/2 | Complete | 2026-01-14 |
 | 9. MCP Server Sync | v2.0 | 1/1 | Complete | 2026-01-14 |
 | 10. Webapp Sync | v2.0 | 1/1 | Complete | 2026-01-14 |
-| 11. Advanced Capture | v2.0 | 0/? | Not started | - |
+| 11. Advanced Capture | v2.0 | 1/2 | In progress | - |
