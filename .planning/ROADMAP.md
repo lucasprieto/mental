@@ -87,7 +87,7 @@ Plans:
 
 Plans:
 - [x] 12-01: MCP Server - Theme enum & remove tags
-- [ ] 12-02: Remove tags from schema, API, and webapp
+- [x] 12-02: Remove tags from schema, API, and webapp
 
 #### Phase 13: Dashboard Redesign
 
@@ -149,7 +149,7 @@ Phases execute in numeric order: 1 → 2 → ... → 12 → 13 → 14 → 15 →
 | 9. MCP Server Sync | v2.0 | 1/1 | Complete | 2026-01-14 |
 | 10. Webapp Sync | v2.0 | 1/1 | Complete | 2026-01-14 |
 | 11. Advanced Capture | v2.0 | 2/2 | Complete | 2026-01-14 |
-| 12. LLM Theme Selection | v3.0 | 1/2 | In progress | - |
+| 12. LLM Theme Selection | v3.0 | 2/2 | Complete | 2026-01-14 |
 | 13. Dashboard Redesign | v3.0 | 0/? | Not started | - |
 | 14. Follow-up Functionality | v3.0 | 0/? | Not started | - |
 | 15. Full-text Search | v3.0 | 0/? | Not started | - |
