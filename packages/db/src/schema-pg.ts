@@ -28,6 +28,9 @@ export const mentalItems = pgTable("mental_items", {
   /** Links item to a specific session for tracking */
   sessionId: text("session_id"),
 
+  /** Project/repo name for context */
+  project: text("project"),
+
   /** Timestamp when created */
   createdAt: timestamp("created_at", { mode: "date" }).notNull(),
 

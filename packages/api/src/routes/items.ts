@@ -73,6 +73,7 @@ const itemsRoute = new Hono()
         tags: z.array(z.string()).optional().default([]),
         theme: z.string().optional(),
         sessionId: z.string().optional(),
+        project: z.string().optional(),
       })
     ),
     async (c) => {
@@ -89,6 +90,7 @@ const itemsRoute = new Hono()
         status: "open" as const,
         resolution: null,
         sessionId: body.sessionId ?? null,
+        project: body.project ?? null,
         createdAt: now,
         updatedAt: now,
         resolvedAt: null,
@@ -111,6 +113,7 @@ const itemsRoute = new Hono()
         theme: z.string().nullable().optional(),
         status: z.enum(["open", "resolved"]).optional(),
         resolution: z.string().nullable().optional(),
+        project: z.string().nullable().optional(),
       })
     ),
     async (c) => {
@@ -138,6 +141,7 @@ const itemsRoute = new Hono()
       if (body.tags !== undefined) updates.tags = JSON.stringify(body.tags);
       if (body.theme !== undefined) updates.theme = body.theme;
       if (body.resolution !== undefined) updates.resolution = body.resolution;
+      if (body.project !== undefined) updates.project = body.project;
 
       // Handle status change
       if (body.status !== undefined) {
