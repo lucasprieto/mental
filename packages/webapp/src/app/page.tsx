@@ -1,6 +1,8 @@
 import { getItemsClient } from "@/lib/api";
 import { ItemList } from "@/components/ItemList";
+import { ItemCard } from "@/components/ItemCard";
 import { Sidebar } from "@/components/Sidebar";
+import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { DashboardActions } from "@/components/DashboardActions";
 import { Suspense } from "react";
 
@@ -96,13 +98,19 @@ export default async function Dashboard({ searchParams }: PageProps) {
           />
         )}
 
-        {/* Recently resolved - filtered */}
-        {(statusFilter === "all" || statusFilter === "resolved") && (
-          <ItemList
+        {/* Recently resolved - filtered, collapsible */}
+        {(statusFilter === "all" || statusFilter === "resolved") && filteredResolvedItems.length > 0 && (
+          <CollapsibleSection
             title="Recently Resolved"
-            items={filteredResolvedItems}
-            emptyMessage={themeFilter ? "No items match filters" : "No resolved items yet."}
-          />
+            count={filteredResolvedItems.length}
+            defaultOpen={false}
+          >
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {filteredResolvedItems.map(item => (
+                <ItemCard key={item.id} item={item} />
+              ))}
+            </div>
+          </CollapsibleSection>
         )}
 
         {/* Floating action button for quick capture */}
