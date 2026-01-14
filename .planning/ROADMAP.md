@@ -51,8 +51,8 @@ Plans:
 **Milestone Goal:** Backend for multi-computer access with advanced capture improvements
 
 - [x] **Phase 7: Backend Setup** - API server with database hosting
-- [ ] **Phase 8: Data Sync** - Migrate from local SQLite to hosted database
-- [ ] **Phase 9: MCP Server Sync** - Update MCP server to use remote API
+- [x] **Phase 8: Data Sync** - Migrate from local SQLite to hosted database
+- [x] **Phase 9: MCP Server Sync** - Update MCP server to use remote API
 - [ ] **Phase 10: Webapp Sync** - Update webapp to use remote API
 - [ ] **Phase 11: Advanced Capture** - Better theme extraction, context awareness
 
@@ -82,11 +82,11 @@ Plans:
 
 **Goal**: Update MCP server to use remote API instead of local SQLite
 **Depends on**: Phase 8
-**Research**: Unlikely (internal patterns)
-**Plans**: TBD
+**Research**: Complete
+**Plans**: 1 plan
 
 Plans:
-- [ ] 09-01: TBD
+- [x] 09-01: Convert MCP tools to remote API calls
 
 #### Phase 10: Webapp Sync
 
@@ -123,6 +123,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 6. Webapp Features | v1.0 | 2/2 | Complete | 2026-01-13 |
 | 7. Backend Setup | v2.0 | 2/2 | Complete | 2026-01-13 |
 | 8. Data Sync | v2.0 | 2/2 | Complete | 2026-01-14 |
-| 9. MCP Server Sync | v2.0 | 0/? | Not started | - |
+| 9. MCP Server Sync | v2.0 | 1/1 | Complete | 2026-01-14 |
 | 10. Webapp Sync | v2.0 | 0/? | Not started | - |
 | 11. Advanced Capture | v2.0 | 0/? | Not started | - |
