@@ -1,5 +1,4 @@
-import { getDatabase } from "@/lib/db";
-import { mentalItems, desc, eq } from "@mental/db";
+import { getItemsClient } from "@/lib/api";
 import { ItemList } from "@/components/ItemList";
 import { FilterBar } from "@/components/FilterBar";
 import { DashboardActions } from "@/components/DashboardActions";
@@ -13,7 +12,7 @@ interface PageProps {
 
 export default async function Dashboard({ searchParams }: PageProps) {
   const params = await searchParams;
-  const db = getDatabase();
+  const client = getItemsClient();
 
   // Parse filter params
   const statusFilter: "all" | "open" | "resolved" =
@@ -23,20 +22,25 @@ export default async function Dashboard({ searchParams }: PageProps) {
   const tagsFilter = params.tags ? params.tags.split(",") : [];
   const themeFilter = params.theme || null;
 
-  // Fetch all items for stats (unfiltered)
-  const allOpenItems = await db.select()
-    .from(mentalItems)
-    .where(eq(mentalItems.status, "open"))
-    .orderBy(desc(mentalItems.createdAt));
+  // Fetch all items from remote API
+  const res = await client.index.$get({ query: { status: "all", limit: "100" } });
+  const allItems = await res.json();
 
-  const allResolvedItems = await db.select()
-    .from(mentalItems)
-    .where(eq(mentalItems.status, "resolved"))
-    .orderBy(desc(mentalItems.resolvedAt))
-    .limit(10);
+  // Separate open and resolved items
+  const allOpenItems = allItems
+    .filter((item) => item.status === "open")
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+  const allResolvedItems = allItems
+    .filter((item) => item.status === "resolved")
+    .sort((a, b) => {
+      const aTime = a.resolvedAt ? new Date(a.resolvedAt).getTime() : 0;
+      const bTime = b.resolvedAt ? new Date(b.resolvedAt).getTime() : 0;
+      return bTime - aTime;
+    })
+    .slice(0, 10);
 
   // Get unique themes from all items
-  const allItems = [...allOpenItems, ...allResolvedItems];
   const themes = [...new Set(allItems.map(i => i.theme).filter((t): t is string => Boolean(t)))];
 
   // Get all unique tags from all items

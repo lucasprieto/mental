@@ -1,5 +1,4 @@
-import { getDatabase } from "@/lib/db";
-import { mentalItems, eq } from "@mental/db";
+import { getItemsClient } from "@/lib/api";
 import { notFound } from "next/navigation";
 import { ItemDetailClient } from "@/components/ItemDetailClient";
 
@@ -11,20 +10,24 @@ interface PageProps {
 
 export default async function ItemDetail({ params }: PageProps) {
   const { id } = await params;
-  const db = getDatabase();
+  const client = getItemsClient();
 
-  const items = await db.select()
-    .from(mentalItems)
-    .where(eq(mentalItems.id, id))
-    .limit(1);
+  const res = await client[":id"].$get({ param: { id } });
 
-  if (items.length === 0) {
+  if (!res.ok) {
+    notFound();
+  }
+
+  const itemData = await res.json();
+
+  // Handle error response (API returns { error: string } on 404)
+  if ("error" in itemData) {
     notFound();
   }
 
   const item = {
-    ...items[0],
-    status: items[0].status as "open" | "resolved",
+    ...itemData,
+    status: itemData.status as "open" | "resolved",
   };
 
   return <ItemDetailClient item={item} />;

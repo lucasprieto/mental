@@ -1,8 +1,8 @@
-import type { MentalItemRow } from "@mental/db";
+import type { MentalItem } from "@/types/item";
 import Link from "next/link";
 
 interface ItemCardProps {
-  item: MentalItemRow;
+  item: MentalItem;
 }
 
 export function ItemCard({ item }: ItemCardProps) {

@@ -13,9 +13,9 @@ interface Item {
   status: "open" | "resolved";
   resolution: string | null;
   sessionId: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-  resolvedAt: Date | null;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  resolvedAt: Date | string | null;
 }
 
 interface ItemDetailClientProps {

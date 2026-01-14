@@ -1,9 +1,9 @@
-import type { MentalItemRow } from "@mental/db";
+import type { MentalItem } from "@/types/item";
 import { ItemCard } from "./ItemCard";
 
 interface ItemListProps {
   title: string;
-  items: MentalItemRow[];
+  items: MentalItem[];
   emptyMessage?: string;
 }
 
