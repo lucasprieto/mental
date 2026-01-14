@@ -1,5 +1,30 @@
 # Project Milestones: Mental
 
+## v2.0 Cloud Sync (Shipped: 2026-01-14)
+
+**Delivered:** Backend infrastructure for multi-computer access with Neon Postgres, plus sentiment-based auto-tagging for smarter thought categorization.
+
+**Phases completed:** 7-11 (8 plans total)
+
+**Key accomplishments:**
+- Hono API server with Neon Postgres for hosted backend
+- SQLite to Neon migration preserving all existing data
+- MCP server converted to remote API calls (multi-computer sync)
+- Webapp converted to remote API calls
+- Sentiment-based theme detection (blocker/concern/question/idea)
+- Auto-tagging based on sentiment with project context capture
+
+**Stats:**
+- 3,783 lines of TypeScript/TSX (total codebase)
+- 5 phases, 8 plans
+- 2 days (2026-01-13 → 2026-01-14)
+
+**Git range:** `feat(07-01)` → `feat(11-02)`
+
+**What's next:** v3.0 - LLM-driven theme selection (let the calling LLM decide themes instead of string matching)
+
+---
+
 ## v1.0 MVP (Shipped: 2026-01-13)
 
 **Delivered:** Personal mind centralization system with MCP server for frictionless thought capture from Claude Code/Cursor and a webapp for viewing, filtering, and managing items.

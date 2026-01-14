@@ -2,42 +2,33 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-01-13)
+See: .planning/PROJECT.md (updated 2026-01-14)
 
 **Core value:** Frictionless capture — thoughts get logged without interrupting flow
-**Current focus:** v2.0 Cloud Sync — Backend for multi-computer access
+**Current focus:** Planning v3.0 or accepting user feedback
 
 ## Current Position
 
 Phase: 11 of 11 (Advanced Capture) — Complete
 Plan: 2 of 2 complete
-Status: Milestone v2.0 complete
-Last activity: 2026-01-14 — Completed 11-02-PLAN.md
+Status: Milestone v2.0 complete, ready for next milestone
+Last activity: 2026-01-14 — v2.0 Cloud Sync shipped
 
 Progress: ████████████ 100% (v1.0 + v2.0 complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 18
-- Average duration: 2.8 min
-- Total execution time: ~0.9 hours
+- Total plans completed: 21 (13 v1.0 + 8 v2.0)
+- Average duration: 2.6 min
+- Total execution time: ~1 hour
 
-**By Phase:**
+**By Milestone:**
 
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 1 | 2 | 5 min | 2.5 min |
-| 2 | 2 | 5 min | 2.5 min |
-| 3 | 2 | 7 min | 3.5 min |
-| 4 | 2 | 7 min | 3.5 min |
-| 5 | 3 | 10 min | 3.3 min |
-| 6 | 2 | 4 min | 2.0 min |
-| 7 | 2 | 7 min | 3.5 min |
-| 8 | 2 | 4 min | 2.0 min |
-| 9 | 1 | 3 min | 3.0 min |
-| 10 | 1 | 3 min | 3.0 min |
-| 11 | 2 | 4 min | 2.0 min |
+| Milestone | Phases | Plans | Duration |
+|-----------|--------|-------|----------|
+| v1.0 MVP | 1-6 | 13 | ~35 min |
+| v2.0 Cloud Sync | 7-11 | 8 | ~25 min |
 
 ## Accumulated Context
 
@@ -47,7 +38,7 @@ All key decisions logged in PROJECT.md Key Decisions table.
 
 ### Deferred Issues
 
-None.
+- LLM-driven theme selection (captured for v3.0)
 
 ### Pending Todos
 
@@ -59,10 +50,11 @@ None.
 
 ### Roadmap Evolution
 
-- Milestone v2.0 created: Cloud Sync (backend + advanced capture), 5 phases (Phase 7-11)
+- v1.0 MVP: Foundation through Webapp Features (Phases 1-6)
+- v2.0 Cloud Sync: Backend + Advanced Capture (Phases 7-11)
 
 ## Session Continuity
 
 Last session: 2026-01-14
-Stopped at: Completed 11-02-PLAN.md (Project Context and Auto-Tagging)
+Stopped at: v2.0 milestone complete
 Resume file: None

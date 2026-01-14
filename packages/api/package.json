@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "tsx watch src/index.ts",
+    "dev": "export $(cat .env.local 2>/dev/null | xargs) && tsx watch src/index.ts",
     "start": "node dist/index.js",
     "db:push": "drizzle-kit push:pg",
     "migrate": "tsx scripts/migrate-from-sqlite.ts"

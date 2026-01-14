@@ -8,16 +8,18 @@ A personal "mind centralization" system for a Tech Lead who context-switches con
 
 Frictionless capture — thoughts get logged without interrupting flow. If this doesn't feel seamless, nothing else matters.
 
-## Current State (v1.0)
+## Current State (v2.0)
 
-Shipped v1.0 MVP with 3,269 lines of TypeScript.
+Shipped v2.0 Cloud Sync with 3,783 lines of TypeScript.
 
-**Tech stack:** pnpm monorepo, TypeScript, SQLite + Drizzle ORM, MCP SDK v1.x, Next.js 15, React 19, Tailwind CSS
+**Tech stack:** pnpm monorepo, TypeScript, Neon Postgres + Drizzle ORM, Hono API, MCP SDK v1.x, Next.js 15, React 19, Tailwind CSS
 
 **What's working:**
 - MCP server with 8 tools for thought capture and lifecycle management
-- Automatic theme extraction from content
-- Session tracking (start_session, end_session)
+- Remote API backend (Hono + Neon Postgres) for multi-computer sync
+- Sentiment-based theme detection (blocker/concern/question/idea)
+- Auto-tagging based on sentiment
+- Project context capture
 - Webapp dashboard with filtering by status/tag/theme
 - Manual entry and editing via webapp
 
@@ -32,10 +34,14 @@ Shipped v1.0 MVP with 3,269 lines of TypeScript.
 - ✓ Webapp dashboard showing open items, recently resolved, themes/tags — v1.0
 - ✓ Search and filter by keyword, tag, date, status — v1.0 (status/tag/theme filters)
 - ✓ Manual entry/editing directly in webapp — v1.0
+- ✓ Multi-computer sync via hosted backend — v2.0
+- ✓ Sentiment-based theme detection (blocker/concern/question/idea) — v2.0
+- ✓ Auto-tagging based on detected sentiment — v2.0
+- ✓ Project context capture — v2.0
 
 ### Active
 
-(None — v1.0 complete, awaiting user validation)
+- [ ] LLM-driven theme selection (let calling LLM decide theme instead of string matching)
 
 ### Out of Scope
 
@@ -67,6 +73,10 @@ The MCP integration is strategic: capture happens where work happens (in the IDE
 | cuid2 for IDs | URL-safe, shorter than UUID | ✓ Good |
 | Next.js 15 + React 19 | Latest stable, good server components | ✓ Good |
 | URL params for filtering | Shareable/bookmarkable filter states | ✓ Good |
+| Hono + Neon Postgres for API | Type-safe RPC, serverless Postgres | ✓ Good |
+| Dual schema pattern (SQLite + Postgres) | Local dev + hosted prod | ✓ Good |
+| String-based sentiment detection | Quick implementation | ⚠️ Revisit (v3.0 LLM-driven) |
+| Hono RPC client pattern | Type-safe API calls from MCP and webapp | ✓ Good |
 
 ---
-*Last updated: 2026-01-13 after v1.0 milestone*
+*Last updated: 2026-01-14 after v2.0 milestone*

@@ -11,7 +11,7 @@ None
 ## Milestones
 
 - ✅ [**v1.0 MVP**](milestones/v1.0-ROADMAP.md) - Phases 1-6 (shipped 2026-01-13)
-- ✅ **v2.0 Cloud Sync** - Phases 7-11 (shipped 2026-01-14)
+- ✅ [**v2.0 Cloud Sync**](milestones/v2.0-ROADMAP.md) - Phases 7-11 (shipped 2026-01-14)
 
 ## Phases
 
@@ -46,9 +46,8 @@ Plans:
 
 </details>
 
-### 🚧 v2.0 Cloud Sync (In Progress)
-
-**Milestone Goal:** Backend for multi-computer access with advanced capture improvements
+<details>
+<summary>✅ v2.0 Cloud Sync (Phases 7-11) - SHIPPED 2026-01-14</summary>
 
 - [x] **Phase 7: Backend Setup** - API server with database hosting
 - [x] **Phase 8: Data Sync** - Migrate from local SQLite to hosted database
@@ -56,58 +55,17 @@ Plans:
 - [x] **Phase 10: Webapp Sync** - Update webapp to use remote API
 - [x] **Phase 11: Advanced Capture** - Better theme extraction, context awareness
 
-#### Phase 7: Backend Setup
-
-**Goal**: Set up hosted API server and database for multi-computer access
-**Depends on**: v1.0 complete
-**Research**: Complete (Hono + Neon Postgres + Railway)
-**Plans**: 2 plans
-
 Plans:
 - [x] 07-01: API package setup with Hono and Neon database connection
 - [x] 07-02: API routes for items and sessions CRUD
-
-#### Phase 8: Data Sync
-
-**Goal**: Migrate from local SQLite to hosted database with sync capability
-**Depends on**: Phase 7
-**Research**: Complete (Neon setup, migration script)
-**Plans**: 2 plans
-
-Plans:
 - [x] 08-01: Neon database setup and schema push
 - [x] 08-02: Migration script and data verification
-
-#### Phase 9: MCP Server Sync
-
-**Goal**: Update MCP server to use remote API instead of local SQLite
-**Depends on**: Phase 8
-**Research**: Complete
-**Plans**: 1 plan
-
-Plans:
 - [x] 09-01: Convert MCP tools to remote API calls
-
-#### Phase 10: Webapp Sync
-
-**Goal**: Update webapp to use remote API instead of local database
-**Depends on**: Phase 8
-**Research**: Complete
-**Plans**: 1 plan
-
-Plans:
 - [x] 10-01: Convert webapp to remote API calls
-
-#### Phase 11: Advanced Capture
-
-**Goal**: Sentiment/urgency detection, project context, auto-tagging
-**Depends on**: Phase 10
-**Research**: Complete (user requirements gathered)
-**Plans**: 2 plans
-
-Plans:
 - [x] 11-01: Enhanced theme extraction with sentiment detection
 - [x] 11-02: Project context and auto-tagging
+
+</details>
 
 ## Progress
 
