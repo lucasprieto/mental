@@ -110,10 +110,17 @@ server.tool(
     tags: z.array(z.string()).optional().describe("Optional tags for categorization")
   },
   async ({ title, content, tags }) => {
-    const theme = extractTheme(content);
+    // Detect sentiment first (higher priority than topic extraction)
+    const sentiment = detectSentiment(content);
+    const topicTheme = extractTheme(content);
+    // Use sentiment as theme if detected, otherwise fall back to topic
+    const theme = sentiment || topicTheme;
 
     console.error(`[mental-mcp] Capturing: "${title}"`);
-    console.error(`[mental-mcp] Theme extracted: ${theme || "none"}`);
+    if (sentiment) {
+      console.error(`[mental-mcp] Sentiment detected: ${sentiment}`);
+    }
+    console.error(`[mental-mcp] Theme: ${theme || "none"}${sentiment ? " (sentiment)" : ""}`);
     console.error(`[mental-mcp] Tags: ${tags?.join(", ") || "none"}`);
     if (currentSessionId) {
       console.error(`[mental-mcp] Session: ${currentSessionId}`);
@@ -143,7 +150,7 @@ server.tool(
     return {
       content: [{
         type: "text",
-        text: `Captured: "${title}"\nID: ${item.id}\nTheme: ${theme || "none"}\nTags: ${tags?.join(", ") || "none"}\nStatus: open${currentSessionId ? `\nSession: ${currentSessionId}` : ""}`
+        text: `Captured: "${title}"\nID: ${item.id}\nTheme: ${theme || "none"}${sentiment ? " (sentiment)" : ""}\nTags: ${tags?.join(", ") || "none"}\nStatus: open${currentSessionId ? `\nSession: ${currentSessionId}` : ""}`
       }]
     };
   }
