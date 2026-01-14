@@ -13,12 +13,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen">
-        <header className="bg-white border-b border-gray-200 px-6 py-4">
-          <h1 className="text-xl font-semibold">Mental</h1>
-        </header>
-        <main className="container mx-auto px-6 py-8">
-          {children}
+      <body className="min-h-screen bg-gray-50">
+        {/* Main content with left margin to account for fixed sidebar */}
+        <main className="ml-64">
+          <div className="px-6 py-8">
+            {children}
+          </div>
         </main>
       </body>
     </html>

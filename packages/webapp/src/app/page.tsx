@@ -1,6 +1,6 @@
 import { getItemsClient } from "@/lib/api";
 import { ItemList } from "@/components/ItemList";
-import { FilterBar } from "@/components/FilterBar";
+import { Sidebar } from "@/components/Sidebar";
 import { DashboardActions } from "@/components/DashboardActions";
 import { Suspense } from "react";
 
@@ -60,66 +60,54 @@ export default async function Dashboard({ searchParams }: PageProps) {
   }
 
   return (
-    <div>
-      {/* Stats row - unfiltered counts */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-        <div className="bg-white p-4 rounded-lg shadow">
-          <p className="text-3xl font-bold text-blue-600">{allOpenItems.length}</p>
-          <p className="text-gray-600">Open</p>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <p className="text-3xl font-bold text-green-600">{allResolvedItems.length}</p>
-          <p className="text-gray-600">Recently Resolved</p>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <p className="text-3xl font-bold text-purple-600">{themes.length}</p>
-          <p className="text-gray-600">Active Themes</p>
-        </div>
-      </div>
-
-      {/* Themes overview - unfiltered */}
-      {themes.length > 0 && (
-        <div className="bg-white rounded-lg shadow p-4 mb-8">
-          <h3 className="font-semibold mb-3">Active Themes</h3>
-          <div className="flex flex-wrap gap-2">
-            {themes.map(theme => (
-              <span key={theme} className="px-3 py-1 bg-purple-100 text-purple-700 text-sm rounded-full">
-                {theme}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Filter bar */}
-      <Suspense fallback={<div className="bg-white rounded-lg shadow p-4 mb-8 animate-pulse h-32" />}>
-        <FilterBar
+    <>
+      {/* Sidebar with filters */}
+      <Suspense fallback={null}>
+        <Sidebar
           themes={themes}
           activeStatus={statusFilter}
           activeTheme={themeFilter}
         />
       </Suspense>
 
-      {/* Open items - filtered */}
-      {(statusFilter === "all" || statusFilter === "open") && (
-        <ItemList
-          title="Open Items"
-          items={filteredOpenItems}
-          emptyMessage={themeFilter ? "No items match filters" : "No open items. Capture some thoughts via Claude Code!"}
-        />
-      )}
+      <div>
+        {/* Stats row - unfiltered counts */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+          <div className="bg-white p-4 rounded-lg shadow">
+            <p className="text-3xl font-bold text-blue-600">{allOpenItems.length}</p>
+            <p className="text-gray-600">Open</p>
+          </div>
+          <div className="bg-white p-4 rounded-lg shadow">
+            <p className="text-3xl font-bold text-green-600">{allResolvedItems.length}</p>
+            <p className="text-gray-600">Recently Resolved</p>
+          </div>
+          <div className="bg-white p-4 rounded-lg shadow">
+            <p className="text-3xl font-bold text-purple-600">{themes.length}</p>
+            <p className="text-gray-600">Active Themes</p>
+          </div>
+        </div>
 
-      {/* Recently resolved - filtered */}
-      {(statusFilter === "all" || statusFilter === "resolved") && (
-        <ItemList
-          title="Recently Resolved"
-          items={filteredResolvedItems}
-          emptyMessage={themeFilter ? "No items match filters" : "No resolved items yet."}
-        />
-      )}
+        {/* Open items - filtered */}
+        {(statusFilter === "all" || statusFilter === "open") && (
+          <ItemList
+            title="Open Items"
+            items={filteredOpenItems}
+            emptyMessage={themeFilter ? "No items match filters" : "No open items. Capture some thoughts via Claude Code!"}
+          />
+        )}
 
-      {/* Floating action button for quick capture */}
-      <DashboardActions />
-    </div>
+        {/* Recently resolved - filtered */}
+        {(statusFilter === "all" || statusFilter === "resolved") && (
+          <ItemList
+            title="Recently Resolved"
+            items={filteredResolvedItems}
+            emptyMessage={themeFilter ? "No items match filters" : "No resolved items yet."}
+          />
+        )}
+
+        {/* Floating action button for quick capture */}
+        <DashboardActions />
+      </div>
+    </>
   );
 }
