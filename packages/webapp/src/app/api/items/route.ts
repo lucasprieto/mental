@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDatabase } from "@/lib/db";
-import { mentalItems, createId } from "@mental/db";
+import { getItemsClient } from "@/lib/api";
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,31 +21,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const db = getDatabase();
-    const now = new Date();
-    const id = createId();
-
-    // Prepare tags as JSON string
+    // Prepare tags array
     const tagsArray = Array.isArray(tags) ? tags : [];
-    const tagsJson = JSON.stringify(tagsArray);
 
-    const newItem = {
-      id,
-      title: title.trim(),
-      content: content.trim(),
-      tags: tagsJson,
-      theme: theme?.trim() || null,
-      status: "open" as const,
-      resolution: null,
-      sessionId: null,
-      createdAt: now,
-      updatedAt: now,
-      resolvedAt: null,
-    };
+    const client = getItemsClient();
+    const res = await client.index.$post({
+      json: {
+        title: title.trim(),
+        content: content.trim(),
+        tags: tagsArray,
+        theme: theme?.trim() || undefined,
+      },
+    });
 
-    await db.insert(mentalItems).values(newItem);
-
-    return NextResponse.json(newItem);
+    const data = await res.json();
+    return NextResponse.json(data, { status: res.status });
   } catch (error) {
     console.error("Error creating item:", error);
     return NextResponse.json(

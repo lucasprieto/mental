@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDatabase } from "@/lib/db";
-import { mentalItems, eq } from "@mental/db";
+import { getItemsClient } from "@/lib/api";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -12,28 +11,8 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const body = await request.json();
     const { title, content, tags, theme, status, resolution } = body;
 
-    const db = getDatabase();
-
-    // Find existing item
-    const existing = await db.select()
-      .from(mentalItems)
-      .where(eq(mentalItems.id, id))
-      .limit(1);
-
-    if (existing.length === 0) {
-      return NextResponse.json(
-        { error: "Item not found" },
-        { status: 404 }
-      );
-    }
-
-    const item = existing[0];
-    const now = new Date();
-
     // Build update object with only provided fields
-    const updates: Record<string, unknown> = {
-      updatedAt: now,
-    };
+    const updates: Record<string, unknown> = {};
 
     if (title !== undefined) {
       if (typeof title !== "string" || title.trim() === "") {
@@ -56,8 +35,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     if (tags !== undefined) {
-      const tagsArray = Array.isArray(tags) ? tags : [];
-      updates.tags = JSON.stringify(tagsArray);
+      updates.tags = Array.isArray(tags) ? tags : [];
     }
 
     if (theme !== undefined) {
@@ -72,30 +50,27 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         );
       }
       updates.status = status;
-
-      // If changing to resolved, set resolvedAt
-      if (status === "resolved" && item.status !== "resolved") {
-        updates.resolvedAt = now;
-      }
-      // Note: If changing to open, keep resolvedAt for history tracking (per 04-01 decision)
     }
 
     if (resolution !== undefined) {
       updates.resolution = resolution?.trim() || null;
     }
 
-    // Apply updates
-    await db.update(mentalItems)
-      .set(updates)
-      .where(eq(mentalItems.id, id));
+    const client = getItemsClient();
+    const res = await client[":id"].$put({
+      param: { id },
+      json: updates as {
+        title?: string;
+        content?: string;
+        tags?: string[];
+        theme?: string | null;
+        status?: "open" | "resolved";
+        resolution?: string | null;
+      },
+    });
 
-    // Fetch and return updated item
-    const updated = await db.select()
-      .from(mentalItems)
-      .where(eq(mentalItems.id, id))
-      .limit(1);
-
-    return NextResponse.json(updated[0]);
+    const data = await res.json();
+    return NextResponse.json(data, { status: res.status });
   } catch (error) {
     console.error("Error updating item:", error);
     return NextResponse.json(
