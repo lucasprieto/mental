@@ -14,9 +14,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-gray-50">
-        {/* Main content with left margin to account for fixed sidebar */}
-        <main className="ml-64">
-          <div className="px-6 py-8">
+        {/* Main content with left margin to account for fixed sidebar (desktop only) */}
+        <main className="md:ml-64">
+          <div className="px-4 py-4 md:px-6 md:py-8">
             {children}
           </div>
         </main>

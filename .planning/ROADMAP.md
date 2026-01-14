@@ -12,7 +12,7 @@ None
 
 - ✅ [**v1.0 MVP**](milestones/v1.0-ROADMAP.md) - Phases 1-6 (shipped 2026-01-13)
 - ✅ [**v2.0 Cloud Sync**](milestones/v2.0-ROADMAP.md) - Phases 7-11 (shipped 2026-01-14)
-- 🚧 **v3.0 UX & Intelligence** - Phases 12-16 (in progress)
+- ✅ [**v3.0 UX & Intelligence**](milestones/v3.0-ROADMAP.md) - Phases 12-16 (shipped 2026-01-14)
 
 ## Phases
 
@@ -68,69 +68,27 @@ Plans:
 
 </details>
 
-### 🚧 v3.0 UX & Intelligence (In Progress)
+<details>
+<summary>✅ v3.0 UX & Intelligence (Phases 12-16) - SHIPPED 2026-01-14</summary>
 
-**Milestone Goal:** Better intelligence (LLM themes) + polished user experience
-
-- [ ] **Phase 12: LLM Theme Selection** - Let calling LLM decide themes
-- [ ] **Phase 13: Dashboard Redesign** - Better filters, modern UI
+- [x] **Phase 12: LLM Theme Selection** - Let calling LLM decide themes
+- [x] **Phase 13: Dashboard Redesign** - Better filters, modern UI
 - [x] **Phase 14: Follow-up Functionality** - Append context to thoughts
-- [ ] **Phase 15: Full-text Search** - Search across content
-- [ ] **Phase 16: Responsive Mobile** - Phone-friendly design
-
-#### Phase 12: LLM Theme Selection
-
-**Goal**: Refactor capture_thought to add `theme` as an enum parameter, remove string-based sentiment detection, remove tags from system
-**Depends on**: v2.0 complete
-**Research**: None needed (internal refactoring)
-**Plans**: 2 plans
+- [x] **Phase 15: Full-text Search** - Search across content
+- [x] **Phase 16: Responsive Mobile** - Phone-friendly design
 
 Plans:
 - [x] 12-01: MCP Server - Theme enum & remove tags
 - [x] 12-02: Remove tags from schema, API, and webapp
-
-#### Phase 13: Dashboard Redesign
-
-**Goal**: Redesign dashboard with better filter placement, modern admin dashboard inspiration
-**Depends on**: Phase 12
-**Research**: Complete (Headless UI, CSS Grid sidebar patterns)
-**Plans**: 2 plans
-
-Plans:
 - [x] 13-01: Layout restructure with sidebar filters
 - [x] 13-02: Collapsible section and error handling
-
-#### Phase 14: Follow-up Functionality
-
-**Goal**: Add ability to append context/updates to existing thoughts (thread-like)
-**Depends on**: Phase 13
-**Research**: None needed (internal patterns)
-**Plans**: 2 plans
-
-Plans:
 - [x] 14-01: Database schema and API routes for follow-ups
 - [x] 14-02: MCP tool and webapp UI for follow-ups
+- [x] 15-01: PostgreSQL tsvector schema and search API endpoint
+- [x] 15-02: Debounced search bar with URL sync and E2E tests
+- [x] 16-01: Responsive sidebar with hamburger menu
 
-#### Phase 15: Full-text Search
-
-**Goal**: Search across thought titles and content for better discovery
-**Depends on**: Phase 14
-**Research**: Likely (search implementation)
-**Research topics**: Postgres FTS, search patterns
-**Plans**: TBD
-
-Plans:
-- [ ] 15-01: TBD
-
-#### Phase 16: Responsive Mobile
-
-**Goal**: Make webapp work well on phone screens with responsive design
-**Depends on**: Phase 15
-**Research**: Unlikely (Tailwind responsive patterns)
-**Plans**: TBD
-
-Plans:
-- [ ] 16-01: TBD
+</details>
 
 ## Progress
 
@@ -153,5 +111,5 @@ Phases execute in numeric order: 1 → 2 → ... → 12 → 13 → 14 → 15 →
 | 12. LLM Theme Selection | v3.0 | 2/2 | Complete | 2026-01-14 |
 | 13. Dashboard Redesign | v3.0 | 2/2 | Complete | 2026-01-14 |
 | 14. Follow-up Functionality | v3.0 | 2/2 | Complete | 2026-01-14 |
-| 15. Full-text Search | v3.0 | 0/? | Not started | - |
-| 16. Responsive Mobile | v3.0 | 0/? | Not started | - |
+| 15. Full-text Search | v3.0 | 2/2 | Complete | 2026-01-14 |
+| 16. Responsive Mobile | v3.0 | 1/1 | Complete | 2026-01-14 |

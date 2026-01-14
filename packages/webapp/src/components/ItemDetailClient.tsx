@@ -17,11 +17,19 @@ interface Item {
   resolvedAt: Date | string | null;
 }
 
-interface ItemDetailClientProps {
-  item: Item;
+interface FollowUp {
+  id: string;
+  itemId: string;
+  content: string;
+  createdAt: Date | string;
 }
 
-export function ItemDetailClient({ item }: ItemDetailClientProps) {
+interface ItemDetailClientProps {
+  item: Item;
+  followups: FollowUp[];
+}
+
+export function ItemDetailClient({ item, followups }: ItemDetailClientProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   if (isEditing) {
@@ -54,7 +62,7 @@ export function ItemDetailClient({ item }: ItemDetailClientProps) {
 
       {/* Header */}
       <div className="bg-white rounded-lg shadow p-6 mb-6">
-        <div className="flex items-start justify-between mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
           <h1 className="text-2xl font-bold text-gray-900">{item.title}</h1>
           <div className="flex items-center gap-2">
             <span className={`px-3 py-1 text-sm rounded-full ${
@@ -103,9 +111,33 @@ export function ItemDetailClient({ item }: ItemDetailClientProps) {
         </div>
       </div>
 
+      {/* Follow-ups section */}
+      <div className="bg-white rounded-lg shadow p-6 mb-6">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">
+          Follow-ups
+          <span className="ml-2 text-sm font-normal text-gray-500">
+            ({followups.length})
+          </span>
+        </h2>
+        {followups.length === 0 ? (
+          <p className="text-gray-500 text-sm italic">No follow-ups yet</p>
+        ) : (
+          <div className="space-y-4">
+            {followups.map((followup) => (
+              <div key={followup.id} className="border-l-2 border-gray-200 pl-4">
+                <p className="text-gray-400 text-xs mb-1">
+                  {new Date(followup.createdAt).toLocaleString()}
+                </p>
+                <p className="text-gray-700 whitespace-pre-wrap">{followup.content}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Resolution (if resolved) */}
       {item.status === "resolved" && item.resolution && (
-        <div className="bg-green-50 rounded-lg shadow p-6 border border-green-200">
+        <div className="bg-green-50 rounded-lg shadow p-6 border border-green-200 mb-6">
           <h2 className="text-lg font-semibold mb-3 text-green-800">Resolution</h2>
           <p className="text-green-700 whitespace-pre-wrap">{item.resolution}</p>
         </div>
