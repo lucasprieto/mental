@@ -13,16 +13,18 @@
     "migrate": "tsx scripts/migrate-from-sqlite.ts"
   },
   "dependencies": {
-    "@mental/db": "workspace:*",
     "@hono/node-server": "^1.13.0",
     "@hono/zod-validator": "^0.4.0",
+    "@mental/db": "workspace:*",
     "@neondatabase/serverless": "^0.10.0",
     "@paralleldrive/cuid2": "^2.3.1",
-        "hono": "^4.6.0",
+    "hono": "^4.6.0",
     "zod": "^3.23.0"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^20.10.0",
+    "better-sqlite3": "^9.6.0",
     "drizzle-kit": "^0.20.0",
     "tsx": "^4.19.0",
     "typescript": "^5.3.0"

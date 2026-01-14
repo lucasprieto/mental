@@ -62,12 +62,19 @@ async function migrate() {
 
   for (const item of items) {
     try {
-      // Convert Unix timestamps (seconds) to Date objects
-      const createdAt = new Date(item.created_at * 1000);
-      const updatedAt = new Date(item.updated_at * 1000);
-      const resolvedAt = item.resolved_at
-        ? new Date(item.resolved_at * 1000)
-        : null;
+      // Convert timestamps to Date objects
+      // Handle both milliseconds (>10^12) and seconds (<10^12) formats
+      const toDate = (ts: number): Date => {
+        // If timestamp is larger than year 2100 in seconds, it's milliseconds
+        if (ts > 4102444800) {
+          return new Date(ts); // Already milliseconds
+        }
+        return new Date(ts * 1000); // Convert seconds to milliseconds
+      };
+
+      const createdAt = toDate(item.created_at);
+      const updatedAt = toDate(item.updated_at);
+      const resolvedAt = item.resolved_at ? toDate(item.resolved_at) : null;
 
       // Insert into Neon with original ID
       await db.insert(pg.mentalItems).values({
