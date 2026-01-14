@@ -53,7 +53,7 @@ Plans:
 - [x] **Phase 7: Backend Setup** - API server with database hosting
 - [x] **Phase 8: Data Sync** - Migrate from local SQLite to hosted database
 - [x] **Phase 9: MCP Server Sync** - Update MCP server to use remote API
-- [ ] **Phase 10: Webapp Sync** - Update webapp to use remote API
+- [x] **Phase 10: Webapp Sync** - Update webapp to use remote API
 - [ ] **Phase 11: Advanced Capture** - Better theme extraction, context awareness
 
 #### Phase 7: Backend Setup
@@ -92,11 +92,11 @@ Plans:
 
 **Goal**: Update webapp to use remote API instead of local database
 **Depends on**: Phase 8
-**Research**: Unlikely (internal patterns)
-**Plans**: TBD
+**Research**: Complete
+**Plans**: 1 plan
 
 Plans:
-- [ ] 10-01: TBD
+- [x] 10-01: Convert webapp to remote API calls
 
 #### Phase 11: Advanced Capture
 
@@ -124,5 +124,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 7. Backend Setup | v2.0 | 2/2 | Complete | 2026-01-13 |
 | 8. Data Sync | v2.0 | 2/2 | Complete | 2026-01-14 |
 | 9. MCP Server Sync | v2.0 | 1/1 | Complete | 2026-01-14 |
-| 10. Webapp Sync | v2.0 | 0/? | Not started | - |
+| 10. Webapp Sync | v2.0 | 1/1 | Complete | 2026-01-14 |
 | 11. Advanced Capture | v2.0 | 0/? | Not started | - |
