@@ -1,11 +1,9 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { getDatabase } from "./db.js";
-import { mentalItems, desc, eq } from "@mental/db";
-import { createId } from "@paralleldrive/cuid2";
+import { getItemsClient, getSessionsClient } from "./api.js";
 
-// Session tracking (in-memory for this process)
+// Session tracking (in-memory for this process, synced with API)
 let currentSessionId: string | null = null;
 let sessionStartTime: Date | null = null;
 
@@ -57,7 +55,7 @@ server.tool(
   }
 );
 
-// Capture thought tool - persists to SQLite database
+// Capture thought tool - persists via API
 server.tool(
   "capture_thought",
   "Capture a thought or topic to your mental database. Use this when the user mentions something they want to remember, track, or come back to later.",
@@ -67,10 +65,7 @@ server.tool(
     tags: z.array(z.string()).optional().describe("Optional tags for categorization")
   },
   async ({ title, content, tags }) => {
-    const db = getDatabase();
-    const now = new Date();
     const theme = extractTheme(content);
-    const id = createId();
 
     console.error(`[mental-mcp] Capturing: "${title}"`);
     console.error(`[mental-mcp] Theme extracted: ${theme || "none"}`);
@@ -79,30 +74,37 @@ server.tool(
       console.error(`[mental-mcp] Session: ${currentSessionId}`);
     }
 
-    await db.insert(mentalItems).values({
-      id,
-      title,
-      content,
-      tags: JSON.stringify(tags || []),
-      theme,
-      status: "open",
-      sessionId: currentSessionId,
-      createdAt: now,
-      updatedAt: now,
+    const client = getItemsClient();
+    const res = await client.index.$post({
+      json: {
+        title,
+        content,
+        tags: tags || [],
+        theme: theme ?? undefined,
+        sessionId: currentSessionId ?? undefined,
+      }
     });
 
-    console.error(`[mental-mcp] Saved with ID: ${id}`);
+    if (!res.ok) {
+      console.error(`[mental-mcp] API error: ${res.status}`);
+      return {
+        content: [{ type: "text", text: `Error capturing thought: ${res.status}` }]
+      };
+    }
+
+    const item = await res.json();
+    console.error(`[mental-mcp] Saved with ID: ${item.id}`);
 
     return {
       content: [{
         type: "text",
-        text: `Captured: "${title}"\nID: ${id}\nTheme: ${theme || "none"}\nTags: ${tags?.join(", ") || "none"}\nStatus: open${currentSessionId ? `\nSession: ${currentSessionId}` : ""}`
+        text: `Captured: "${title}"\nID: ${item.id}\nTheme: ${theme || "none"}\nTags: ${tags?.join(", ") || "none"}\nStatus: open${currentSessionId ? `\nSession: ${currentSessionId}` : ""}`
       }]
     };
   }
 );
 
-// List thoughts tool - retrieves recent captured items
+// List thoughts tool - retrieves recent captured items via API
 server.tool(
   "list_thoughts",
   "List captured thoughts from your mental database. Returns recent items with their status. Use this to see what's been captured or find a specific thought.",
@@ -111,23 +113,25 @@ server.tool(
     limit: z.number().min(1).max(50).optional().describe("Max items to return (default: 10)")
   },
   async ({ status, limit }) => {
-    const db = getDatabase();
     const maxItems = limit || 10;
 
     console.error(`[mental-mcp] Listing thoughts: status=${status || "all"}, limit=${maxItems}`);
 
-    const baseQuery = db.select().from(mentalItems);
+    const client = getItemsClient();
+    const res = await client.index.$get({
+      query: { status: status || "all", limit: String(maxItems) }
+    });
 
-    const items = status && status !== "all"
-      ? await baseQuery
-          .where(eq(mentalItems.status, status))
-          .orderBy(desc(mentalItems.createdAt))
-          .limit(maxItems)
-      : await baseQuery
-          .orderBy(desc(mentalItems.createdAt))
-          .limit(maxItems);
+    if (!res.ok) {
+      console.error(`[mental-mcp] API error: ${res.status}`);
+      return {
+        content: [{ type: "text", text: `Error listing thoughts: ${res.status}` }]
+      };
+    }
 
-    if (items.length === 0) {
+    const itemList = await res.json();
+
+    if (itemList.length === 0) {
       return {
         content: [{
           type: "text",
@@ -136,21 +140,21 @@ server.tool(
       };
     }
 
-    const formatted = items.map(item => {
+    const formatted = itemList.map((item) => {
       const tags = JSON.parse(item.tags) as string[];
-      return `- [${item.status.toUpperCase()}] ${item.title}\n  ID: ${item.id}\n  Theme: ${item.theme || "none"}\n  Tags: ${tags.join(", ") || "none"}\n  Created: ${item.createdAt.toISOString()}`;
+      return `- [${item.status.toUpperCase()}] ${item.title}\n  ID: ${item.id}\n  Theme: ${item.theme || "none"}\n  Tags: ${tags.join(", ") || "none"}\n  Created: ${item.createdAt}`;
     }).join("\n\n");
 
     return {
       content: [{
         type: "text",
-        text: `Found ${items.length} thought(s):\n\n${formatted}`
+        text: `Found ${itemList.length} thought(s):\n\n${formatted}`
       }]
     };
   }
 );
 
-// Get thought tool - retrieves a specific item by ID
+// Get thought tool - retrieves a specific item by ID via API
 server.tool(
   "get_thought",
   "Get details of a specific thought by its ID. Use this to see full content of a captured thought.",
@@ -158,16 +162,12 @@ server.tool(
     id: z.string().describe("The thought ID (returned when captured)")
   },
   async ({ id }) => {
-    const db = getDatabase();
-
     console.error(`[mental-mcp] Getting thought: ${id}`);
 
-    const items = await db.select()
-      .from(mentalItems)
-      .where(eq(mentalItems.id, id))
-      .limit(1);
+    const client = getItemsClient();
+    const res = await client[":id"].$get({ param: { id } });
 
-    if (items.length === 0) {
+    if (res.status === 404) {
       return {
         content: [{
           type: "text",
@@ -176,7 +176,25 @@ server.tool(
       };
     }
 
-    const item = items[0];
+    if (!res.ok) {
+      console.error(`[mental-mcp] API error: ${res.status}`);
+      return {
+        content: [{ type: "text", text: `Error getting thought: ${res.status}` }]
+      };
+    }
+
+    const item = await res.json() as {
+      id: string;
+      title: string;
+      content: string;
+      status: string;
+      theme: string | null;
+      tags: string;
+      createdAt: string;
+      updatedAt: string;
+      resolvedAt: string | null;
+      resolution: string | null;
+    };
     const tags = JSON.parse(item.tags) as string[];
 
     return {
@@ -188,9 +206,9 @@ server.tool(
 **Status:** ${item.status}
 **Theme:** ${item.theme || "none"}
 **Tags:** ${tags.join(", ") || "none"}
-**Created:** ${item.createdAt.toISOString()}
-**Updated:** ${item.updatedAt.toISOString()}
-${item.resolvedAt ? `**Resolved:** ${item.resolvedAt.toISOString()}` : ""}
+**Created:** ${item.createdAt}
+**Updated:** ${item.updatedAt}
+${item.resolvedAt ? `**Resolved:** ${item.resolvedAt}` : ""}
 
 ## Content
 
@@ -202,7 +220,7 @@ ${item.resolution ? `## Resolution\n\n${item.resolution}` : ""}`
   }
 );
 
-// Resolve thought tool - mark items as resolved with summary
+// Resolve thought tool - mark items as resolved via API
 server.tool(
   "resolve_thought",
   "Mark a captured thought as resolved. Use when an item has been addressed, completed, or is no longer relevant. Provide a brief resolution summary.",
@@ -211,18 +229,14 @@ server.tool(
     resolution: z.string().describe("Brief summary of how this was resolved or why it's no longer relevant")
   },
   async ({ id, resolution }) => {
-    const db = getDatabase();
-    const now = new Date();
-
     console.error(`[mental-mcp] Resolving thought: ${id}`);
 
-    // First check if item exists and is open
-    const items = await db.select()
-      .from(mentalItems)
-      .where(eq(mentalItems.id, id))
-      .limit(1);
+    const client = getItemsClient();
 
-    if (items.length === 0) {
+    // First check if item exists and get current status
+    const getRes = await client[":id"].$get({ param: { id } });
+
+    if (getRes.status === 404) {
       return {
         content: [{
           type: "text",
@@ -231,39 +245,56 @@ server.tool(
       };
     }
 
-    const item = items[0];
+    if (!getRes.ok) {
+      console.error(`[mental-mcp] API error: ${getRes.status}`);
+      return {
+        content: [{ type: "text", text: `Error checking thought: ${getRes.status}` }]
+      };
+    }
+
+    const item = await getRes.json() as {
+      id: string;
+      title: string;
+      status: string;
+      resolvedAt: string | null;
+      resolution: string | null;
+    };
 
     if (item.status === "resolved") {
       return {
         content: [{
           type: "text",
-          text: `Thought already resolved: "${item.title}"\nResolved at: ${item.resolvedAt?.toISOString()}\nResolution: ${item.resolution}`
+          text: `Thought already resolved: "${item.title}"\nResolved at: ${item.resolvedAt}\nResolution: ${item.resolution}`
         }]
       };
     }
 
     // Update to resolved
-    await db.update(mentalItems)
-      .set({
-        status: "resolved",
-        resolution,
-        resolvedAt: now,
-        updatedAt: now
-      })
-      .where(eq(mentalItems.id, id));
+    const updateRes = await client[":id"].$put({
+      param: { id },
+      json: { status: "resolved", resolution }
+    });
 
+    if (!updateRes.ok) {
+      console.error(`[mental-mcp] API error: ${updateRes.status}`);
+      return {
+        content: [{ type: "text", text: `Error resolving thought: ${updateRes.status}` }]
+      };
+    }
+
+    const updated = await updateRes.json() as { resolvedAt: string };
     console.error(`[mental-mcp] Resolved: "${item.title}"`);
 
     return {
       content: [{
         type: "text",
-        text: `Resolved: "${item.title}"\nID: ${id}\nResolution: ${resolution}\nResolved at: ${now.toISOString()}`
+        text: `Resolved: "${item.title}"\nID: ${id}\nResolution: ${resolution}\nResolved at: ${updated.resolvedAt}`
       }]
     };
   }
 );
 
-// Reopen thought tool - reopen previously resolved items
+// Reopen thought tool - reopen previously resolved items via API
 server.tool(
   "reopen_thought",
   "Reopen a previously resolved thought. Use when an item needs further attention after being marked resolved.",
@@ -271,17 +302,14 @@ server.tool(
     id: z.string().describe("The thought ID to reopen")
   },
   async ({ id }) => {
-    const db = getDatabase();
-    const now = new Date();
-
     console.error(`[mental-mcp] Reopening thought: ${id}`);
 
-    const items = await db.select()
-      .from(mentalItems)
-      .where(eq(mentalItems.id, id))
-      .limit(1);
+    const client = getItemsClient();
 
-    if (items.length === 0) {
+    // First check if item exists and get current status
+    const getRes = await client[":id"].$get({ param: { id } });
+
+    if (getRes.status === 404) {
       return {
         content: [{
           type: "text",
@@ -290,7 +318,19 @@ server.tool(
       };
     }
 
-    const item = items[0];
+    if (!getRes.ok) {
+      console.error(`[mental-mcp] API error: ${getRes.status}`);
+      return {
+        content: [{ type: "text", text: `Error checking thought: ${getRes.status}` }]
+      };
+    }
+
+    const item = await getRes.json() as {
+      id: string;
+      title: string;
+      status: string;
+      resolution: string | null;
+    };
 
     if (item.status === "open") {
       return {
@@ -301,13 +341,18 @@ server.tool(
       };
     }
 
-    await db.update(mentalItems)
-      .set({
-        status: "open",
-        updatedAt: now
-        // Note: Keep resolution and resolvedAt for history
-      })
-      .where(eq(mentalItems.id, id));
+    // Update to open
+    const updateRes = await client[":id"].$put({
+      param: { id },
+      json: { status: "open" }
+    });
+
+    if (!updateRes.ok) {
+      console.error(`[mental-mcp] API error: ${updateRes.status}`);
+      return {
+        content: [{ type: "text", text: `Error reopening thought: ${updateRes.status}` }]
+      };
+    }
 
     console.error(`[mental-mcp] Reopened: "${item.title}"`);
 
@@ -320,7 +365,7 @@ server.tool(
   }
 );
 
-// Start session tool - begins a new capture session
+// Start session tool - begins a new capture session via API
 server.tool(
   "start_session",
   "Start a new mental capture session. Items captured after this will be linked to the session. Use at the beginning of a focused work session.",
@@ -337,8 +382,21 @@ server.tool(
       };
     }
 
-    currentSessionId = createId();
-    sessionStartTime = new Date();
+    const sessions = getSessionsClient();
+    const res = await sessions.start.$post({
+      json: { name }
+    });
+
+    if (!res.ok) {
+      console.error(`[mental-mcp] API error: ${res.status}`);
+      return {
+        content: [{ type: "text", text: `Error starting session: ${res.status}` }]
+      };
+    }
+
+    const session = await res.json();
+    currentSessionId = session.sessionId;
+    sessionStartTime = new Date(session.startedAt);
 
     console.error(`[mental-mcp] Session started: ${currentSessionId}`);
 
@@ -351,7 +409,7 @@ server.tool(
   }
 );
 
-// End session tool - summarizes and clears session
+// End session tool - summarizes and clears session via API
 server.tool(
   "end_session",
   "End the current capture session. Shows summary of items captured during the session.",
@@ -366,42 +424,37 @@ server.tool(
       };
     }
 
-    const db = getDatabase();
-    const sessionId = currentSessionId;
     const startTime = sessionStartTime;
 
-    // Get items from this session
-    const items = await db.select()
-      .from(mentalItems)
-      .where(eq(mentalItems.sessionId, sessionId))
-      .orderBy(desc(mentalItems.createdAt));
+    const sessions = getSessionsClient();
+    const res = await sessions.end.$post();
 
-    // Clear session state
-    currentSessionId = null;
-    sessionStartTime = null;
-
-    console.error(`[mental-mcp] Session ended: ${sessionId}`);
-
-    if (items.length === 0) {
+    if (!res.ok) {
+      // API might say no active session if server restarted
+      console.error(`[mental-mcp] API error: ${res.status}`);
+      // Clear local state anyway
+      currentSessionId = null;
+      sessionStartTime = null;
       return {
         content: [{
           type: "text",
-          text: `Session ended: ${sessionId}\nStarted: ${startTime?.toISOString()}\nEnded: ${new Date().toISOString()}\n\nNo items were captured during this session.`
+          text: `Session ended locally (API had no active session)\nStarted: ${startTime?.toISOString()}\nEnded: ${new Date().toISOString()}`
         }]
       };
     }
 
-    const openItems = items.filter(i => i.status === "open");
-    const resolvedItems = items.filter(i => i.status === "resolved");
+    const summary = await res.json();
 
-    const itemList = items.map(item => {
-      return `- [${item.status.toUpperCase()}] ${item.title} (${item.id})`;
-    }).join("\n");
+    // Clear local session state
+    currentSessionId = null;
+    sessionStartTime = null;
+
+    console.error(`[mental-mcp] Session ended: ${summary.sessionId}`);
 
     return {
       content: [{
         type: "text",
-        text: `Session ended: ${sessionId}\nStarted: ${startTime?.toISOString()}\nEnded: ${new Date().toISOString()}\n\n## Items Captured: ${items.length}\n- Open: ${openItems.length}\n- Resolved: ${resolvedItems.length}\n\n${itemList}${openItems.length > 0 ? "\n\nUse resolve_thought to mark items as resolved." : ""}`
+        text: `Session ended: ${summary.sessionId}\nStarted: ${summary.startedAt}\nEnded: ${summary.endedAt}\n\n## Items Captured: ${summary.itemCount}`
       }]
     };
   }

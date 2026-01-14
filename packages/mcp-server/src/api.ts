@@ -1,13 +1,31 @@
 import { hc } from "hono/client";
-import type { AppType } from "@mental/api";
+import type { ItemsRoute, SessionsRoute } from "@mental/api";
 
 const API_URL = process.env.MENTAL_API_URL || "http://localhost:3000";
-let client: ReturnType<typeof hc<AppType>> | null = null;
 
-export function getApiClient() {
-  if (!client) {
+let itemsClient: ReturnType<typeof hc<ItemsRoute>> | null = null;
+let sessionsClient: ReturnType<typeof hc<SessionsRoute>> | null = null;
+let initialized = false;
+
+function ensureInitialized() {
+  if (!initialized) {
     console.error(`[mental-mcp] Connecting to API: ${API_URL}`);
-    client = hc<AppType>(API_URL);
+    initialized = true;
   }
-  return client;
+}
+
+export function getItemsClient() {
+  if (!itemsClient) {
+    ensureInitialized();
+    itemsClient = hc<ItemsRoute>(`${API_URL}/items`);
+  }
+  return itemsClient;
+}
+
+export function getSessionsClient() {
+  if (!sessionsClient) {
+    ensureInitialized();
+    sessionsClient = hc<SessionsRoute>(`${API_URL}/sessions`);
+  }
+  return sessionsClient;
 }
