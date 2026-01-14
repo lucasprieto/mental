@@ -104,11 +104,12 @@ Plans:
 
 **Goal**: Add ability to append context/updates to existing thoughts (thread-like)
 **Depends on**: Phase 13
-**Research**: Unlikely (internal patterns)
-**Plans**: TBD
+**Research**: None needed (internal patterns)
+**Plans**: 2 plans
 
 Plans:
-- [ ] 14-01: TBD
+- [ ] 14-01: Database schema and API routes for follow-ups
+- [ ] 14-02: MCP tool and webapp UI for follow-ups
 
 #### Phase 15: Full-text Search
 
