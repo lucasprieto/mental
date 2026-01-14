@@ -7,63 +7,7 @@ import { getItemsClient, getSessionsClient } from "./api.js";
 let currentSessionId: string | null = null;
 let sessionStartTime: Date | null = null;
 
-/**
- * Detect sentiment/urgency from content
- * Priority order: blocker > concern > question > idea
- */
-function detectSentiment(content: string): "blocker" | "concern" | "idea" | "question" | null {
-  const lowerContent = content.toLowerCase();
 
-  // Blocker patterns (highest priority)
-  const blockerPatterns = ["blocked", "can't proceed", "cannot proceed", "waiting on", "waiting for", "dependency", "depends on", "stuck"];
-  for (const pattern of blockerPatterns) {
-    if (lowerContent.includes(pattern)) {
-      return "blocker";
-    }
-  }
-
-  // Concern patterns
-  const concernPatterns = ["worried", "risk", "might break", "unsure", "uncertain", "problem", "issue"];
-  for (const pattern of concernPatterns) {
-    if (lowerContent.includes(pattern)) {
-      return "concern";
-    }
-  }
-
-  // Question patterns (check for ? anywhere, or specific phrases)
-  if (content.includes("?")) {
-    return "question";
-  }
-  const questionPatterns = ["how do", "why does", "not sure if", "wondering", "unclear"];
-  for (const pattern of questionPatterns) {
-    if (lowerContent.includes(pattern)) {
-      return "question";
-    }
-  }
-
-  // Idea patterns (lowest priority)
-  const ideaPatterns = ["could", "maybe", "what if", "might be better", "suggestion", "consider", "alternative"];
-  for (const pattern of ideaPatterns) {
-    if (lowerContent.includes(pattern)) {
-      return "idea";
-    }
-  }
-
-  return null;
-}
-
-/**
- * Get auto-tags based on detected sentiment
- */
-function getAutoTags(sentiment: "blocker" | "concern" | "idea" | "question" | null): string[] {
-  switch (sentiment) {
-    case "blocker": return ["blocker", "urgent"];
-    case "concern": return ["concern", "risk"];
-    case "idea": return ["idea", "enhancement"];
-    case "question": return ["question", "clarification"];
-    default: return [];
-  }
-}
 
 /**
  * Extract a theme from content using pattern matching
@@ -120,27 +64,18 @@ server.tool(
   {
     title: z.string().describe("Brief title for the thought (2-10 words)"),
     content: z.string().describe("Full content or context of the thought"),
-    tags: z.array(z.string()).optional().describe("Optional tags for categorization"),
-    project: z.string().optional().describe("Project or repo name for context")
+    project: z.string().optional().describe("Project or repo name for context"),
+    theme: z.enum(["blocker", "concern", "question", "idea"]).optional().describe(
+      "Theme/sentiment of the thought. Use: blocker (blocked, waiting on dependencies), concern (worried, risk, uncertain), question (asking how/why, unclear), idea (suggestion, alternative, maybe)"
+    )
   },
-  async ({ title, content, tags, project }) => {
-    // Detect sentiment first (higher priority than topic extraction)
-    const sentiment = detectSentiment(content);
+  async ({ title, content, project, theme }) => {
+    // Use LLM-provided theme, fall back to topic extraction
     const topicTheme = extractTheme(content);
-    // Use sentiment as theme if detected, otherwise fall back to topic
-    const theme = sentiment || topicTheme;
-
-    // Get auto-tags from sentiment and merge with user tags (deduplicated)
-    const autoTags = getAutoTags(sentiment);
-    const allTags = [...new Set([...autoTags, ...(tags || [])])];
+    const finalTheme = theme || topicTheme;
 
     console.error(`[mental-mcp] Capturing: "${title}"`);
-    if (sentiment) {
-      console.error(`[mental-mcp] Sentiment detected: ${sentiment}`);
-    }
-    console.error(`[mental-mcp] Theme: ${theme || "none"}${sentiment ? " (sentiment)" : ""}`);
-    console.error(`[mental-mcp] Auto-tags: ${autoTags.join(", ") || "none"}`);
-    console.error(`[mental-mcp] Tags: ${allTags.join(", ") || "none"}`);
+    console.error(`[mental-mcp] Theme: ${finalTheme || "none"}${theme ? " (LLM)" : topicTheme ? " (topic)" : ""}`);
     console.error(`[mental-mcp] Project: ${project || "none"}`);
     if (currentSessionId) {
       console.error(`[mental-mcp] Session: ${currentSessionId}`);
@@ -151,8 +86,7 @@ server.tool(
       json: {
         title,
         content,
-        tags: allTags,
-        theme: theme ?? undefined,
+        theme: finalTheme ?? undefined,
         sessionId: currentSessionId ?? undefined,
         project: project ?? undefined,
       }
@@ -171,7 +105,7 @@ server.tool(
     return {
       content: [{
         type: "text",
-        text: `Captured: "${title}"\nID: ${item.id}\nTheme: ${theme || "none"}${sentiment ? " (sentiment)" : ""}\nTags: ${allTags.join(", ") || "none"}${autoTags.length > 0 ? ` (auto: ${autoTags.join(", ")})` : ""}\nProject: ${project || "none"}\nStatus: open${currentSessionId ? `\nSession: ${currentSessionId}` : ""}`
+        text: `Captured: "${title}"\nID: ${item.id}\nTheme: ${finalTheme || "none"}${theme ? " (LLM)" : topicTheme ? " (topic)" : ""}\nProject: ${project || "none"}\nStatus: open${currentSessionId ? `\nSession: ${currentSessionId}` : ""}`
       }]
     };
   }
@@ -214,8 +148,7 @@ server.tool(
     }
 
     const formatted = itemList.map((item) => {
-      const tags = JSON.parse(item.tags) as string[];
-      return `- [${item.status.toUpperCase()}] ${item.title}\n  ID: ${item.id}\n  Theme: ${item.theme || "none"}\n  Tags: ${tags.join(", ") || "none"}\n  Created: ${item.createdAt}`;
+      return `- [${item.status.toUpperCase()}] ${item.title}\n  ID: ${item.id}\n  Theme: ${item.theme || "none"}\n  Created: ${item.createdAt}`;
     }).join("\n\n");
 
     return {
@@ -262,13 +195,11 @@ server.tool(
       content: string;
       status: string;
       theme: string | null;
-      tags: string;
       createdAt: string;
       updatedAt: string;
       resolvedAt: string | null;
       resolution: string | null;
     };
-    const tags = JSON.parse(item.tags) as string[];
 
     return {
       content: [{
@@ -278,7 +209,6 @@ server.tool(
 **ID:** ${item.id}
 **Status:** ${item.status}
 **Theme:** ${item.theme || "none"}
-**Tags:** ${tags.join(", ") || "none"}
 **Created:** ${item.createdAt}
 **Updated:** ${item.updatedAt}
 ${item.resolvedAt ? `**Resolved:** ${item.resolvedAt}` : ""}
