@@ -9,7 +9,8 @@
     "build": "tsc",
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
-    "db:push": "drizzle-kit push:pg"
+    "db:push": "drizzle-kit push:pg",
+    "migrate": "tsx scripts/migrate-from-sqlite.ts"
   },
   "dependencies": {
     "@mental/db": "workspace:*",
