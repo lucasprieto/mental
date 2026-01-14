@@ -53,6 +53,19 @@ function detectSentiment(content: string): "blocker" | "concern" | "idea" | "que
 }
 
 /**
+ * Get auto-tags based on detected sentiment
+ */
+function getAutoTags(sentiment: "blocker" | "concern" | "idea" | "question" | null): string[] {
+  switch (sentiment) {
+    case "blocker": return ["blocker", "urgent"];
+    case "concern": return ["concern", "risk"];
+    case "idea": return ["idea", "enhancement"];
+    case "question": return ["question", "clarification"];
+    default: return [];
+  }
+}
+
+/**
  * Extract a theme from content using pattern matching
  * Simple keyword extraction - find most relevant topic
  */
