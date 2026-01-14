@@ -101,6 +101,7 @@ export default async function Dashboard({ searchParams }: PageProps) {
         {/* Recently resolved - filtered, collapsible */}
         {(statusFilter === "all" || statusFilter === "resolved") && filteredResolvedItems.length > 0 && (
           <CollapsibleSection
+            key={`resolved-${statusFilter}`}
             title="Recently Resolved"
             count={filteredResolvedItems.length}
             defaultOpen={statusFilter === "resolved"}
