@@ -74,7 +74,7 @@ Plans:
 
 - [ ] **Phase 12: LLM Theme Selection** - Let calling LLM decide themes
 - [ ] **Phase 13: Dashboard Redesign** - Better filters, modern UI
-- [ ] **Phase 14: Follow-up Functionality** - Append context to thoughts
+- [x] **Phase 14: Follow-up Functionality** - Append context to thoughts
 - [ ] **Phase 15: Full-text Search** - Search across content
 - [ ] **Phase 16: Responsive Mobile** - Phone-friendly design
 
@@ -108,8 +108,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 14-01: Database schema and API routes for follow-ups
-- [ ] 14-02: MCP tool and webapp UI for follow-ups
+- [x] 14-01: Database schema and API routes for follow-ups
+- [x] 14-02: MCP tool and webapp UI for follow-ups
 
 #### Phase 15: Full-text Search
 
@@ -152,6 +152,6 @@ Phases execute in numeric order: 1 → 2 → ... → 12 → 13 → 14 → 15 →
 | 11. Advanced Capture | v2.0 | 2/2 | Complete | 2026-01-14 |
 | 12. LLM Theme Selection | v3.0 | 2/2 | Complete | 2026-01-14 |
 | 13. Dashboard Redesign | v3.0 | 2/2 | Complete | 2026-01-14 |
-| 14. Follow-up Functionality | v3.0 | 0/? | Not started | - |
+| 14. Follow-up Functionality | v3.0 | 2/2 | Complete | 2026-01-14 |
 | 15. Full-text Search | v3.0 | 0/? | Not started | - |
 | 16. Responsive Mobile | v3.0 | 0/? | Not started | - |
