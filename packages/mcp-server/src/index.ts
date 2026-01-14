@@ -8,6 +8,51 @@ let currentSessionId: string | null = null;
 let sessionStartTime: Date | null = null;
 
 /**
+ * Detect sentiment/urgency from content
+ * Priority order: blocker > concern > question > idea
+ */
+function detectSentiment(content: string): "blocker" | "concern" | "idea" | "question" | null {
+  const lowerContent = content.toLowerCase();
+
+  // Blocker patterns (highest priority)
+  const blockerPatterns = ["blocked", "can't proceed", "cannot proceed", "waiting on", "waiting for", "dependency", "depends on", "stuck"];
+  for (const pattern of blockerPatterns) {
+    if (lowerContent.includes(pattern)) {
+      return "blocker";
+    }
+  }
+
+  // Concern patterns
+  const concernPatterns = ["worried", "risk", "might break", "unsure", "uncertain", "problem", "issue"];
+  for (const pattern of concernPatterns) {
+    if (lowerContent.includes(pattern)) {
+      return "concern";
+    }
+  }
+
+  // Question patterns (check for ? anywhere, or specific phrases)
+  if (content.includes("?")) {
+    return "question";
+  }
+  const questionPatterns = ["how do", "why does", "not sure if", "wondering", "unclear"];
+  for (const pattern of questionPatterns) {
+    if (lowerContent.includes(pattern)) {
+      return "question";
+    }
+  }
+
+  // Idea patterns (lowest priority)
+  const ideaPatterns = ["could", "maybe", "what if", "might be better", "suggestion", "consider", "alternative"];
+  for (const pattern of ideaPatterns) {
+    if (lowerContent.includes(pattern)) {
+      return "idea";
+    }
+  }
+
+  return null;
+}
+
+/**
  * Extract a theme from content using pattern matching
  * Simple keyword extraction - find most relevant topic
  */
