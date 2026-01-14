@@ -5,7 +5,7 @@
   "description": "Mind centralization system with MCP integration",
   "scripts": {
     "build": "pnpm -r build",
-    "deploy": "railway up"
+    "deploy:api": "koyeb deploy . mental-api/mental-api --archive-builder docker --ports 3000:http --routes /:3000 --env DATABASE_URL=@database-url"
   },
   "devDependencies": {
     "typescript": "^5.3.0",
