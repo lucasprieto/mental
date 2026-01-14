@@ -11,7 +11,7 @@ None
 ## Milestones
 
 - ✅ [**v1.0 MVP**](milestones/v1.0-ROADMAP.md) - Phases 1-6 (shipped 2026-01-13)
-- 🚧 **v2.0 Cloud Sync** - Phases 7-11 (in progress)
+- ✅ **v2.0 Cloud Sync** - Phases 7-11 (shipped 2026-01-14)
 
 ## Phases
 
@@ -54,7 +54,7 @@ Plans:
 - [x] **Phase 8: Data Sync** - Migrate from local SQLite to hosted database
 - [x] **Phase 9: MCP Server Sync** - Update MCP server to use remote API
 - [x] **Phase 10: Webapp Sync** - Update webapp to use remote API
-- [ ] **Phase 11: Advanced Capture** - Better theme extraction, context awareness
+- [x] **Phase 11: Advanced Capture** - Better theme extraction, context awareness
 
 #### Phase 7: Backend Setup
 
@@ -107,7 +107,7 @@ Plans:
 
 Plans:
 - [x] 11-01: Enhanced theme extraction with sentiment detection
-- [ ] 11-02: Project context and auto-tagging
+- [x] 11-02: Project context and auto-tagging
 
 ## Progress
 
@@ -126,4 +126,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 8. Data Sync | v2.0 | 2/2 | Complete | 2026-01-14 |
 | 9. MCP Server Sync | v2.0 | 1/1 | Complete | 2026-01-14 |
 | 10. Webapp Sync | v2.0 | 1/1 | Complete | 2026-01-14 |
-| 11. Advanced Capture | v2.0 | 1/2 | In progress | - |
+| 11. Advanced Capture | v2.0 | 2/2 | Complete | 2026-01-14 |
