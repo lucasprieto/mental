@@ -4,7 +4,8 @@
   "private": true,
   "description": "Mind centralization system with MCP integration",
   "scripts": {
-    "build": "pnpm -r build"
+    "build": "pnpm -r build",
+    "deploy": "railway up"
   },
   "devDependencies": {
     "typescript": "^5.3.0",
