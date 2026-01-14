@@ -103,7 +103,7 @@ export default async function Dashboard({ searchParams }: PageProps) {
           <CollapsibleSection
             title="Recently Resolved"
             count={filteredResolvedItems.length}
-            defaultOpen={false}
+            defaultOpen={statusFilter === "resolved"}
           >
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {filteredResolvedItems.map(item => (
