@@ -71,12 +71,12 @@ Plans:
 
 **Goal**: Migrate from local SQLite to hosted database with sync capability
 **Depends on**: Phase 7
-**Research**: Likely (database migration, Postgres vs Turso)
-**Research topics**: Postgres vs Turso/LibSQL, migration strategy, schema updates
-**Plans**: TBD
+**Research**: Complete (Neon setup, migration script)
+**Plans**: 2 plans
 
 Plans:
-- [ ] 08-01: TBD
+- [ ] 08-01: Neon database setup and schema push
+- [ ] 08-02: Migration script and data verification
 
 #### Phase 9: MCP Server Sync
 
@@ -122,7 +122,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 5. Webapp Core | v1.0 | 3/3 | Complete | 2026-01-13 |
 | 6. Webapp Features | v1.0 | 2/2 | Complete | 2026-01-13 |
 | 7. Backend Setup | v2.0 | 2/2 | Complete | 2026-01-13 |
-| 8. Data Sync | v2.0 | 0/? | Not started | - |
+| 8. Data Sync | v2.0 | 0/2 | Not started | - |
 | 9. MCP Server Sync | v2.0 | 0/? | Not started | - |
 | 10. Webapp Sync | v2.0 | 0/? | Not started | - |
 | 11. Advanced Capture | v2.0 | 0/? | Not started | - |
