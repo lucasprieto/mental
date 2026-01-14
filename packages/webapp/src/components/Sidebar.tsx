@@ -48,21 +48,6 @@ export function Sidebar({ themes, activeStatus, activeTheme }: SidebarProps) {
         <h1 className="text-lg font-semibold">Mental</h1>
       </div>
 
-      {/* Slim theme pills */}
-      {themes.length > 0 && (
-        <div className="flex items-center gap-1.5 px-4 py-2 border-b border-gray-100">
-          <span className="text-xs text-gray-400">Themes:</span>
-          {themes.map((theme) => (
-            <span
-              key={theme}
-              className="px-2 py-0.5 text-xs bg-purple-50 text-purple-600 rounded"
-            >
-              {theme}
-            </span>
-          ))}
-        </div>
-      )}
-
       {/* Filter sections */}
       <nav className="p-4 space-y-6">
         {/* Status filter */}
