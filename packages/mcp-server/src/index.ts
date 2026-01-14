@@ -120,21 +120,28 @@ server.tool(
   {
     title: z.string().describe("Brief title for the thought (2-10 words)"),
     content: z.string().describe("Full content or context of the thought"),
-    tags: z.array(z.string()).optional().describe("Optional tags for categorization")
+    tags: z.array(z.string()).optional().describe("Optional tags for categorization"),
+    project: z.string().optional().describe("Project or repo name for context")
   },
-  async ({ title, content, tags }) => {
+  async ({ title, content, tags, project }) => {
     // Detect sentiment first (higher priority than topic extraction)
     const sentiment = detectSentiment(content);
     const topicTheme = extractTheme(content);
     // Use sentiment as theme if detected, otherwise fall back to topic
     const theme = sentiment || topicTheme;
 
+    // Get auto-tags from sentiment and merge with user tags (deduplicated)
+    const autoTags = getAutoTags(sentiment);
+    const allTags = [...new Set([...autoTags, ...(tags || [])])];
+
     console.error(`[mental-mcp] Capturing: "${title}"`);
     if (sentiment) {
       console.error(`[mental-mcp] Sentiment detected: ${sentiment}`);
     }
     console.error(`[mental-mcp] Theme: ${theme || "none"}${sentiment ? " (sentiment)" : ""}`);
-    console.error(`[mental-mcp] Tags: ${tags?.join(", ") || "none"}`);
+    console.error(`[mental-mcp] Auto-tags: ${autoTags.join(", ") || "none"}`);
+    console.error(`[mental-mcp] Tags: ${allTags.join(", ") || "none"}`);
+    console.error(`[mental-mcp] Project: ${project || "none"}`);
     if (currentSessionId) {
       console.error(`[mental-mcp] Session: ${currentSessionId}`);
     }
@@ -144,9 +151,10 @@ server.tool(
       json: {
         title,
         content,
-        tags: tags || [],
+        tags: allTags,
         theme: theme ?? undefined,
         sessionId: currentSessionId ?? undefined,
+        project: project ?? undefined,
       }
     });
 
@@ -163,7 +171,7 @@ server.tool(
     return {
       content: [{
         type: "text",
-        text: `Captured: "${title}"\nID: ${item.id}\nTheme: ${theme || "none"}${sentiment ? " (sentiment)" : ""}\nTags: ${tags?.join(", ") || "none"}\nStatus: open${currentSessionId ? `\nSession: ${currentSessionId}` : ""}`
+        text: `Captured: "${title}"\nID: ${item.id}\nTheme: ${theme || "none"}${sentiment ? " (sentiment)" : ""}\nTags: ${allTags.join(", ") || "none"}${autoTags.length > 0 ? ` (auto: ${autoTags.join(", ")})` : ""}\nProject: ${project || "none"}\nStatus: open${currentSessionId ? `\nSession: ${currentSessionId}` : ""}`
       }]
     };
   }
