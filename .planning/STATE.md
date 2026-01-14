@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-14)
 
 **Core value:** Frictionless capture — thoughts get logged without interrupting flow
-**Current focus:** v3.0 Complete — All milestones shipped
+**Current focus:** v4.0 Distribution & Auth — npm publishing + user authentication
 
 ## Current Position
 
-Phase: 16 of 16 (Responsive Mobile)
-Plan: 1 of 1 in current phase
-Status: Complete - v3.0 SHIPPED
-Last activity: 2026-01-14 — Completed Phase 16 (Responsive Mobile) and v3.0 milestone
+Phase: 17 of 20 (npm Package)
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-01-14 — Created v4.0 milestone
 
-Progress: ████████████ 100% (v3.0)
+Progress: ░░░░░░░░░░░░ 0% (v4.0)
 
 ## Performance Metrics
 
@@ -54,9 +54,10 @@ None.
 - v1.0 MVP: Foundation through Webapp Features (Phases 1-6)
 - v2.0 Cloud Sync: Backend + Advanced Capture (Phases 7-11)
 - v3.0 UX & Intelligence: LLM themes + Dashboard + Search + Mobile (Phases 12-16)
+- v4.0 Distribution & Auth: npm package + Auth0 + deployment (Phases 17-20)
 
 ## Session Continuity
 
 Last session: 2026-01-14
-Stopped at: Phase 15 complete, ready for Phase 16 (Responsive Mobile)
+Stopped at: v4.0 milestone created, ready for Phase 17 (npm Package)
 Resume file: None

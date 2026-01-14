@@ -13,6 +13,7 @@ None
 - ✅ [**v1.0 MVP**](milestones/v1.0-ROADMAP.md) - Phases 1-6 (shipped 2026-01-13)
 - ✅ [**v2.0 Cloud Sync**](milestones/v2.0-ROADMAP.md) - Phases 7-11 (shipped 2026-01-14)
 - ✅ [**v3.0 UX & Intelligence**](milestones/v3.0-ROADMAP.md) - Phases 12-16 (shipped 2026-01-14)
+- 🚧 **v4.0 Distribution & Auth** - Phases 17-20 (in progress)
 
 ## Phases
 
@@ -90,10 +91,61 @@ Plans:
 
 </details>
 
+### 🚧 v4.0 Distribution & Auth (In Progress)
+
+**Milestone Goal:** Make Mental distributable and multi-user with npm package and Auth0 authentication
+
+- [ ] **Phase 17: npm Package** - Publish MCP server to npm
+- [ ] **Phase 18: Auth0 Integration** - User authentication and API keys
+- [ ] **Phase 19: Webapp Deployment** - Deploy webapp to Vercel with login
+- [ ] **Phase 20: User Management** - Dashboard for API key management
+
+#### Phase 17: npm Package
+
+**Goal**: Publish MCP server to npm so users can run `npx mental-mcp`
+**Depends on**: v3.0 complete
+**Research**: Unlikely (standard npm patterns)
+**Plans**: TBD
+
+Plans:
+- [ ] 17-01: TBD (run /gsd:plan-phase 17 to break down)
+
+#### Phase 18: Auth0 Integration
+
+**Goal**: Add Auth0 for user authentication, generate per-user API keys
+**Depends on**: Phase 17
+**Research**: Likely (Auth0 SDK, JWT patterns)
+**Research topics**: Auth0 React SDK, API middleware, key generation
+**Plans**: TBD
+
+Plans:
+- [ ] 18-01: TBD
+
+#### Phase 19: Webapp Deployment
+
+**Goal**: Deploy webapp to Vercel with Auth0 login protection
+**Depends on**: Phase 18
+**Research**: Likely (Vercel + Auth0 integration)
+**Research topics**: Vercel deployment, Auth0 Next.js integration
+**Plans**: TBD
+
+Plans:
+- [ ] 19-01: TBD
+
+#### Phase 20: User Management
+
+**Goal**: Dashboard for users to view and regenerate their API keys
+**Depends on**: Phase 19
+**Research**: Unlikely (internal patterns)
+**Plans**: TBD
+
+Plans:
+- [ ] 20-01: TBD
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → ... → 12 → 13 → 14 → 15 → 16
+Phases execute in numeric order: 1 → 2 → ... → 16 → 17 → 18 → 19 → 20
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -113,3 +165,7 @@ Phases execute in numeric order: 1 → 2 → ... → 12 → 13 → 14 → 15 →
 | 14. Follow-up Functionality | v3.0 | 2/2 | Complete | 2026-01-14 |
 | 15. Full-text Search | v3.0 | 2/2 | Complete | 2026-01-14 |
 | 16. Responsive Mobile | v3.0 | 1/1 | Complete | 2026-01-14 |
+| 17. npm Package | v4.0 | 0/? | Not started | - |
+| 18. Auth0 Integration | v4.0 | 0/? | Not started | - |
+| 19. Webapp Deployment | v4.0 | 0/? | Not started | - |
+| 20. User Management | v4.0 | 0/? | Not started | - |
