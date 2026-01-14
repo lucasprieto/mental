@@ -50,3 +50,21 @@ export interface ResolveMentalItemInput {
   id: string;
   resolution: string;
 }
+
+/**
+ * Follow-up - a thread-like update appended to an existing thought
+ */
+export interface FollowUp {
+  id: string;
+  itemId: string;
+  content: string;
+  createdAt: Date;
+}
+
+/**
+ * Input for creating a follow-up
+ */
+export interface CreateFollowUpInput {
+  itemId: string;
+  content: string;
+}

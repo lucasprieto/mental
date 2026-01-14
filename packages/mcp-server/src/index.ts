@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { getItemsClient, getSessionsClient } from "./api.js";
+import { getItemsClient, getSessionsClient, getFollowupsClient } from "./api.js";
 
 // Session tracking (in-memory for this process, synced with API)
 let currentSessionId: string | null = null;
@@ -363,6 +363,69 @@ server.tool(
       content: [{
         type: "text",
         text: `Reopened: "${item.title}"\nID: ${id}\nPrevious resolution: ${item.resolution || "none"}`
+      }]
+    };
+  }
+);
+
+// Add follow-up tool - append context to existing thought
+server.tool(
+  "add_followup",
+  "Add a follow-up update to an existing thought. Use when you have additional context, progress, or notes to append to a captured thought.",
+  {
+    id: z.string().describe("The thought ID to add follow-up to"),
+    content: z.string().describe("The follow-up content (progress update, additional context, notes)")
+  },
+  async ({ id, content }) => {
+    console.error(`[mental-mcp] Adding follow-up to: ${id}`);
+
+    const itemsClient = getItemsClient();
+    const followupsClient = getFollowupsClient();
+
+    // Check item exists
+    const getRes = await itemsClient[":id"].$get({ param: { id } });
+
+    if (getRes.status === 404) {
+      return {
+        content: [{ type: "text", text: `Thought not found: ${id}` }]
+      };
+    }
+
+    if (!getRes.ok) {
+      console.error(`[mental-mcp] API error: ${getRes.status}`);
+      return {
+        content: [{ type: "text", text: `Error checking thought: ${getRes.status}` }]
+      };
+    }
+
+    const item = await getRes.json() as { title: string; status: string };
+
+    // Can't add follow-ups to resolved items
+    if (item.status === "resolved") {
+      return {
+        content: [{ type: "text", text: `Cannot add follow-up: "${item.title}" is already resolved` }]
+      };
+    }
+
+    // Create follow-up
+    const res = await followupsClient.index.$post({
+      json: { itemId: id, content }
+    });
+
+    if (!res.ok) {
+      console.error(`[mental-mcp] API error: ${res.status}`);
+      return {
+        content: [{ type: "text", text: `Error adding follow-up: ${res.status}` }]
+      };
+    }
+
+    const followup = await res.json();
+    console.error(`[mental-mcp] Follow-up added: ${followup.id}`);
+
+    return {
+      content: [{
+        type: "text",
+        text: `Follow-up added to: "${item.title}"\nFollow-up ID: ${followup.id}\nCreated: ${followup.createdAt}`
       }]
     };
   }

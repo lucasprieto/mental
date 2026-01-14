@@ -4,7 +4,12 @@ export type { MentalItemRow, NewMentalItemRow } from "./schema";
 
 // Postgres schema exports (for API server)
 export * as pg from "./schema-pg";
-export type { MentalItemRowPg, NewMentalItemRowPg } from "./schema-pg";
+export type {
+  MentalItemRowPg,
+  NewMentalItemRowPg,
+  FollowUpRowPg,
+  NewFollowUpRowPg,
+} from "./schema-pg";
 
 // Client exports (SQLite)
 export { getDb } from "./client";
@@ -15,7 +20,7 @@ export { getDbPg } from "./client-pg";
 export type { DbClientPg } from "./client-pg";
 
 // Re-export drizzle-orm utilities to avoid version conflicts in consumers
-export { desc, eq } from "drizzle-orm";
+export { asc, desc, eq } from "drizzle-orm";
 
 // Re-export cuid2 for ID generation
 export { createId } from "@paralleldrive/cuid2";
