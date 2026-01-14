@@ -13,11 +13,10 @@ const itemsRoute = new Hono()
       z.object({
         status: z.enum(["open", "resolved", "all"]).optional().default("all"),
         limit: z.coerce.number().min(1).max(100).optional().default(50),
-        tags: z.string().optional(),
       })
     ),
     async (c) => {
-      const { status, limit, tags } = c.req.valid("query");
+      const { status, limit } = c.req.valid("query");
       const db = getDb();
 
       const items = await db
@@ -31,16 +30,6 @@ const itemsRoute = new Hono()
       // Filter by status if not "all"
       if (status !== "all") {
         filtered = filtered.filter((item) => item.status === status);
-      }
-
-      // Filter by tags if provided (comma-separated, AND logic)
-      if (tags) {
-        const filterTags = tags.split(",").map((t) => t.trim().toLowerCase());
-        filtered = filtered.filter((item) => {
-          const itemTags: string[] = JSON.parse(item.tags);
-          const lowerTags = itemTags.map((t) => t.toLowerCase());
-          return filterTags.every((ft) => lowerTags.includes(ft));
-        });
       }
 
       return c.json(filtered);
@@ -70,7 +59,6 @@ const itemsRoute = new Hono()
       z.object({
         title: z.string().min(1),
         content: z.string(),
-        tags: z.array(z.string()).optional().default([]),
         theme: z.string().optional(),
         sessionId: z.string().optional(),
         project: z.string().optional(),
@@ -85,7 +73,7 @@ const itemsRoute = new Hono()
         id: createId(),
         title: body.title,
         content: body.content,
-        tags: JSON.stringify(body.tags),
+        tags: "[]", // Keep column for backwards compat, always empty
         theme: body.theme ?? null,
         status: "open" as const,
         resolution: null,
@@ -109,7 +97,6 @@ const itemsRoute = new Hono()
       z.object({
         title: z.string().min(1).optional(),
         content: z.string().optional(),
-        tags: z.array(z.string()).optional(),
         theme: z.string().nullable().optional(),
         status: z.enum(["open", "resolved"]).optional(),
         resolution: z.string().nullable().optional(),
@@ -138,7 +125,6 @@ const itemsRoute = new Hono()
 
       if (body.title !== undefined) updates.title = body.title;
       if (body.content !== undefined) updates.content = body.content;
-      if (body.tags !== undefined) updates.tags = JSON.stringify(body.tags);
       if (body.theme !== undefined) updates.theme = body.theme;
       if (body.resolution !== undefined) updates.resolution = body.resolution;
       if (body.project !== undefined) updates.project = body.project;

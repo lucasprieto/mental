@@ -8,7 +8,6 @@ interface Item {
   id: string;
   title: string;
   content: string;
-  tags: string;
   theme: string | null;
   status: "open" | "resolved";
   resolution: string | null;
@@ -24,7 +23,6 @@ interface ItemDetailClientProps {
 
 export function ItemDetailClient({ item }: ItemDetailClientProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const tags = JSON.parse(item.tags) as string[];
 
   if (isEditing) {
     return (
@@ -76,18 +74,13 @@ export function ItemDetailClient({ item }: ItemDetailClientProps) {
         </div>
 
         {/* Meta info */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {item.theme && (
+        {item.theme && (
+          <div className="flex flex-wrap gap-2 mb-4">
             <span className="px-2 py-1 bg-purple-100 text-purple-700 text-sm rounded">
               Theme: {item.theme}
             </span>
-          )}
-          {tags.map(tag => (
-            <span key={tag} className="px-2 py-1 bg-gray-100 text-gray-600 text-sm rounded">
-              {tag}
-            </span>
-          ))}
-        </div>
+          </div>
+        )}
 
         {/* Timestamps */}
         <div className="text-sm text-gray-500 space-y-1">

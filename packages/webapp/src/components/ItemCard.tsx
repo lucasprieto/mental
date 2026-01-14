@@ -6,8 +6,6 @@ interface ItemCardProps {
 }
 
 export function ItemCard({ item }: ItemCardProps) {
-  const tags = JSON.parse(item.tags) as string[];
-
   return (
     <Link
       href={`/item/${item.id}`}
@@ -30,18 +28,13 @@ export function ItemCard({ item }: ItemCardProps) {
         {item.content}
       </p>
 
-      <div className="flex items-center gap-2 flex-wrap">
-        {item.theme && (
+      {item.theme && (
+        <div className="flex items-center gap-2 flex-wrap mb-2">
           <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded">
             {item.theme}
           </span>
-        )}
-        {tags.map(tag => (
-          <span key={tag} className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">
-            {tag}
-          </span>
-        ))}
-      </div>
+        </div>
+      )}
 
       <p className="text-gray-400 text-xs mt-2">
         {item.status === "resolved" && item.resolvedAt

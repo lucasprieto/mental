@@ -11,10 +11,7 @@ export interface MentalItem {
   /** Full content of the captured thought */
   content: string;
 
-  /** User-assigned tags for categorization */
-  tags: string[];
-
-  /** Auto-extracted theme from the prompt context */
+  /** Auto-extracted or LLM-provided theme */
   theme: string | null;
 
   /** Current status of the item */
@@ -42,7 +39,6 @@ export interface MentalItem {
 export interface CreateMentalItemInput {
   title: string;
   content: string;
-  tags?: string[];
   theme?: string | null;
   sessionId?: string | null;
 }

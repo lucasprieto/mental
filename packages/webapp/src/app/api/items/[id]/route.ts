@@ -9,7 +9,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = await params;
     const body = await request.json();
-    const { title, content, tags, theme, status, resolution } = body;
+    const { title, content, theme, status, resolution } = body;
 
     // Build update object with only provided fields
     const updates: Record<string, unknown> = {};
@@ -32,10 +32,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         );
       }
       updates.content = content.trim();
-    }
-
-    if (tags !== undefined) {
-      updates.tags = Array.isArray(tags) ? tags : [];
     }
 
     if (theme !== undefined) {
@@ -62,7 +58,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       json: updates as {
         title?: string;
         content?: string;
-        tags?: string[];
         theme?: string | null;
         status?: "open" | "resolved";
         resolution?: string | null;

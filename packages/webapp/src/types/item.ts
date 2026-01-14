@@ -6,7 +6,6 @@ export interface MentalItem {
   id: string;
   title: string;
   content: string;
-  tags: string; // JSON string array
   theme: string | null;
   status: string;
   resolution: string | null;

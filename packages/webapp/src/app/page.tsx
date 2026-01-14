@@ -7,7 +7,7 @@ import { Suspense } from "react";
 export const dynamic = "force-dynamic";
 
 interface PageProps {
-  searchParams: Promise<{ status?: string; tags?: string; theme?: string }>;
+  searchParams: Promise<{ status?: string; theme?: string }>;
 }
 
 export default async function Dashboard({ searchParams }: PageProps) {
@@ -19,7 +19,6 @@ export default async function Dashboard({ searchParams }: PageProps) {
     params.status === "open" || params.status === "resolved"
       ? params.status
       : "all";
-  const tagsFilter = params.tags ? params.tags.split(",") : [];
   const themeFilter = params.theme || null;
 
   // Fetch all items from remote API
@@ -43,19 +42,6 @@ export default async function Dashboard({ searchParams }: PageProps) {
   // Get unique themes from all items
   const themes = [...new Set(allItems.map(i => i.theme).filter((t): t is string => Boolean(t)))];
 
-  // Get all unique tags from all items
-  const allTags = allItems.flatMap(i => JSON.parse(i.tags) as string[]);
-  const uniqueTags = [...new Set(allTags)];
-
-  // Get tag counts for "At a Glance" display
-  const tagCounts = allTags.reduce((acc, tag) => {
-    acc[tag] = (acc[tag] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
-  const topTags = Object.entries(tagCounts)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 10);
-
   // Apply filters for display
   let filteredOpenItems = allOpenItems;
   let filteredResolvedItems = allResolvedItems;
@@ -67,18 +53,6 @@ export default async function Dashboard({ searchParams }: PageProps) {
     filteredOpenItems = [];
   }
 
-  // Tags filter (AND logic - items must have ALL selected tags)
-  if (tagsFilter.length > 0) {
-    filteredOpenItems = filteredOpenItems.filter(item => {
-      const itemTags = JSON.parse(item.tags) as string[];
-      return tagsFilter.every(tag => itemTags.includes(tag));
-    });
-    filteredResolvedItems = filteredResolvedItems.filter(item => {
-      const itemTags = JSON.parse(item.tags) as string[];
-      return tagsFilter.every(tag => itemTags.includes(tag));
-    });
-  }
-
   // Theme filter
   if (themeFilter) {
     filteredOpenItems = filteredOpenItems.filter(item => item.theme === themeFilter);
@@ -88,7 +62,7 @@ export default async function Dashboard({ searchParams }: PageProps) {
   return (
     <div>
       {/* Stats row - unfiltered counts */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
         <div className="bg-white p-4 rounded-lg shadow">
           <p className="text-3xl font-bold text-blue-600">{allOpenItems.length}</p>
           <p className="text-gray-600">Open</p>
@@ -101,25 +75,16 @@ export default async function Dashboard({ searchParams }: PageProps) {
           <p className="text-3xl font-bold text-purple-600">{themes.length}</p>
           <p className="text-gray-600">Active Themes</p>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <p className="text-3xl font-bold text-gray-600">{topTags.length}</p>
-          <p className="text-gray-600">Tags in Use</p>
-        </div>
       </div>
 
-      {/* Themes & Tags overview - unfiltered */}
-      {(themes.length > 0 || topTags.length > 0) && (
+      {/* Themes overview - unfiltered */}
+      {themes.length > 0 && (
         <div className="bg-white rounded-lg shadow p-4 mb-8">
-          <h3 className="font-semibold mb-3">At a Glance</h3>
+          <h3 className="font-semibold mb-3">Active Themes</h3>
           <div className="flex flex-wrap gap-2">
             {themes.map(theme => (
               <span key={theme} className="px-3 py-1 bg-purple-100 text-purple-700 text-sm rounded-full">
                 {theme}
-              </span>
-            ))}
-            {topTags.map(([tag, count]) => (
-              <span key={tag} className="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">
-                {tag} ({count})
               </span>
             ))}
           </div>
@@ -129,10 +94,8 @@ export default async function Dashboard({ searchParams }: PageProps) {
       {/* Filter bar */}
       <Suspense fallback={<div className="bg-white rounded-lg shadow p-4 mb-8 animate-pulse h-32" />}>
         <FilterBar
-          tags={uniqueTags}
           themes={themes}
           activeStatus={statusFilter}
-          activeTags={tagsFilter}
           activeTheme={themeFilter}
         />
       </Suspense>
@@ -142,7 +105,7 @@ export default async function Dashboard({ searchParams }: PageProps) {
         <ItemList
           title="Open Items"
           items={filteredOpenItems}
-          emptyMessage={tagsFilter.length > 0 || themeFilter ? "No items match filters" : "No open items. Capture some thoughts via Claude Code!"}
+          emptyMessage={themeFilter ? "No items match filters" : "No open items. Capture some thoughts via Claude Code!"}
         />
       )}
 
@@ -151,7 +114,7 @@ export default async function Dashboard({ searchParams }: PageProps) {
         <ItemList
           title="Recently Resolved"
           items={filteredResolvedItems}
-          emptyMessage={tagsFilter.length > 0 || themeFilter ? "No items match filters" : "No resolved items yet."}
+          emptyMessage={themeFilter ? "No items match filters" : "No resolved items yet."}
         />
       )}
 

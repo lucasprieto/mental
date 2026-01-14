@@ -12,7 +12,6 @@ export function CaptureModal({ isOpen, onClose }: CaptureModalProps) {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,7 +20,6 @@ export function CaptureModal({ isOpen, onClose }: CaptureModalProps) {
     if (!isOpen) {
       setTitle("");
       setContent("");
-      setTags("");
       setError(null);
     }
   }, [isOpen]);
@@ -43,19 +41,12 @@ export function CaptureModal({ isOpen, onClose }: CaptureModalProps) {
     setIsLoading(true);
 
     try {
-      // Parse tags from comma-separated input
-      const tagsArray = tags
-        .split(",")
-        .map((t) => t.trim())
-        .filter((t) => t.length > 0);
-
       const response = await fetch("/api/items", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title,
           content,
-          tags: tagsArray,
         }),
       });
 
@@ -77,7 +68,7 @@ export function CaptureModal({ isOpen, onClose }: CaptureModalProps) {
     } finally {
       setIsLoading(false);
     }
-  }, [title, content, tags, router, onClose]);
+  }, [title, content, router, onClose]);
 
   if (!isOpen) return null;
 
@@ -117,7 +108,7 @@ export function CaptureModal({ isOpen, onClose }: CaptureModalProps) {
             />
           </div>
 
-          <div className="mb-4">
+          <div className="mb-6">
             <label
               htmlFor="content"
               className="block text-sm font-medium text-gray-700 mb-1"
@@ -131,24 +122,6 @@ export function CaptureModal({ isOpen, onClose }: CaptureModalProps) {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-32 resize-none"
               placeholder="Full details of what you want to capture..."
               required
-              disabled={isLoading}
-            />
-          </div>
-
-          <div className="mb-6">
-            <label
-              htmlFor="tags"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Tags <span className="text-gray-400">(comma-separated)</span>
-            </label>
-            <input
-              type="text"
-              id="tags"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="work, idea, follow-up"
               disabled={isLoading}
             />
           </div>

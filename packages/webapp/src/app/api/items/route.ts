@@ -4,7 +4,7 @@ import { getItemsClient } from "@/lib/api";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, content, tags, theme } = body;
+    const { title, content, theme } = body;
 
     // Validate required fields
     if (!title || typeof title !== "string" || title.trim() === "") {
@@ -21,15 +21,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Prepare tags array
-    const tagsArray = Array.isArray(tags) ? tags : [];
-
     const client = getItemsClient();
     const res = await client.index.$post({
       json: {
         title: title.trim(),
         content: content.trim(),
-        tags: tagsArray,
         theme: theme?.trim() || undefined,
       },
     });

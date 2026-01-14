@@ -5,23 +5,18 @@ import { useCallback } from "react";
 
 export interface FilterState {
   status: "all" | "open" | "resolved";
-  tags: string[];
   theme: string | null;
 }
 
 interface FilterBarProps {
-  tags: string[];
   themes: string[];
   activeStatus: "all" | "open" | "resolved";
-  activeTags: string[];
   activeTheme: string | null;
 }
 
 export function FilterBar({
-  tags,
   themes,
   activeStatus,
-  activeTags,
   activeTheme,
 }: FilterBarProps) {
   const router = useRouter();
@@ -40,15 +35,6 @@ export function FilterBar({
         }
       }
 
-      // Update tags
-      if (updates.tags !== undefined) {
-        if (updates.tags.length === 0) {
-          params.delete("tags");
-        } else {
-          params.set("tags", updates.tags.join(","));
-        }
-      }
-
       // Update theme
       if (updates.theme !== undefined) {
         if (updates.theme === null) {
@@ -64,13 +50,6 @@ export function FilterBar({
     [router, searchParams]
   );
 
-  const toggleTag = (tag: string) => {
-    const newTags = activeTags.includes(tag)
-      ? activeTags.filter((t) => t !== tag)
-      : [...activeTags, tag];
-    updateFilters({ tags: newTags });
-  };
-
   const toggleTheme = (theme: string) => {
     updateFilters({ theme: activeTheme === theme ? null : theme });
   };
@@ -79,8 +58,7 @@ export function FilterBar({
     router.push("/");
   };
 
-  const hasActiveFilters =
-    activeStatus !== "all" || activeTags.length > 0 || activeTheme !== null;
+  const hasActiveFilters = activeStatus !== "all" || activeTheme !== null;
 
   return (
     <div className="bg-white rounded-lg shadow p-4 mb-8">
@@ -115,28 +93,6 @@ export function FilterBar({
           ))}
         </div>
       </div>
-
-      {/* Tags filter */}
-      {tags.length > 0 && (
-        <div className="mb-4">
-          <p className="text-sm text-gray-600 mb-2">Tags</p>
-          <div className="flex flex-wrap gap-2">
-            {tags.map((tag) => (
-              <button
-                key={tag}
-                onClick={() => toggleTag(tag)}
-                className={`px-3 py-1 text-sm rounded-full transition-colors ${
-                  activeTags.includes(tag)
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* Themes filter */}
       {themes.length > 0 && (

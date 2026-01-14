@@ -7,7 +7,6 @@ interface Item {
   id: string;
   title: string;
   content: string;
-  tags: string;
   theme: string | null;
   status: "open" | "resolved";
   resolution: string | null;
@@ -20,11 +19,9 @@ interface EditItemFormProps {
 
 export function EditItemForm({ item, onCancel }: EditItemFormProps) {
   const router = useRouter();
-  const parsedTags = JSON.parse(item.tags) as string[];
 
   const [title, setTitle] = useState(item.title);
   const [content, setContent] = useState(item.content);
-  const [tags, setTags] = useState(parsedTags.join(", "));
   const [theme, setTheme] = useState(item.theme || "");
   const [status, setStatus] = useState<"open" | "resolved">(item.status);
   const [resolution, setResolution] = useState(item.resolution || "");
@@ -37,18 +34,12 @@ export function EditItemForm({ item, onCancel }: EditItemFormProps) {
     setIsLoading(true);
 
     try {
-      const tagsArray = tags
-        .split(",")
-        .map((t) => t.trim())
-        .filter((t) => t.length > 0);
-
       const response = await fetch(`/api/items/${item.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title,
           content,
-          tags: tagsArray,
           theme: theme || null,
           status,
           resolution: status === "resolved" ? resolution : null,
@@ -72,7 +63,7 @@ export function EditItemForm({ item, onCancel }: EditItemFormProps) {
     } finally {
       setIsLoading(false);
     }
-  }, [item.id, title, content, tags, theme, status, resolution, router, onCancel]);
+  }, [item.id, title, content, theme, status, resolution, router, onCancel]);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -109,22 +100,6 @@ export function EditItemForm({ item, onCancel }: EditItemFormProps) {
           onChange={(e) => setContent(e.target.value)}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-32 resize-none"
           required
-          disabled={isLoading}
-        />
-      </div>
-
-      {/* Tags */}
-      <div>
-        <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-1">
-          Tags <span className="text-gray-400">(comma-separated)</span>
-        </label>
-        <input
-          type="text"
-          id="tags"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="work, idea, follow-up"
           disabled={isLoading}
         />
       </div>
