@@ -12,6 +12,7 @@ None
 
 - ✅ [**v1.0 MVP**](milestones/v1.0-ROADMAP.md) - Phases 1-6 (shipped 2026-01-13)
 - ✅ [**v2.0 Cloud Sync**](milestones/v2.0-ROADMAP.md) - Phases 7-11 (shipped 2026-01-14)
+- 🚧 **v3.0 UX & Intelligence** - Phases 12-16 (in progress)
 
 ## Phases
 
@@ -67,10 +68,72 @@ Plans:
 
 </details>
 
+### 🚧 v3.0 UX & Intelligence (In Progress)
+
+**Milestone Goal:** Better intelligence (LLM themes) + polished user experience
+
+- [ ] **Phase 12: LLM Theme Selection** - Let calling LLM decide themes
+- [ ] **Phase 13: Dashboard Redesign** - Better filters, modern UI
+- [ ] **Phase 14: Follow-up Functionality** - Append context to thoughts
+- [ ] **Phase 15: Full-text Search** - Search across content
+- [ ] **Phase 16: Responsive Mobile** - Phone-friendly design
+
+#### Phase 12: LLM Theme Selection
+
+**Goal**: Refactor capture_thought to add `theme` as an enum parameter, removing string-based sentiment detection
+**Depends on**: v2.0 complete
+**Research**: Unlikely (internal refactoring)
+**Plans**: TBD
+
+Plans:
+- [ ] 12-01: TBD (run /gsd:plan-phase 12 to break down)
+
+#### Phase 13: Dashboard Redesign
+
+**Goal**: Redesign dashboard with better filter placement, modern admin dashboard inspiration
+**Depends on**: Phase 12
+**Research**: Likely (UI inspiration)
+**Research topics**: Admin dashboard patterns, filter UX best practices
+**Plans**: TBD
+
+Plans:
+- [ ] 13-01: TBD
+
+#### Phase 14: Follow-up Functionality
+
+**Goal**: Add ability to append context/updates to existing thoughts (thread-like)
+**Depends on**: Phase 13
+**Research**: Unlikely (internal patterns)
+**Plans**: TBD
+
+Plans:
+- [ ] 14-01: TBD
+
+#### Phase 15: Full-text Search
+
+**Goal**: Search across thought titles and content for better discovery
+**Depends on**: Phase 14
+**Research**: Likely (search implementation)
+**Research topics**: Postgres FTS, search patterns
+**Plans**: TBD
+
+Plans:
+- [ ] 15-01: TBD
+
+#### Phase 16: Responsive Mobile
+
+**Goal**: Make webapp work well on phone screens with responsive design
+**Depends on**: Phase 15
+**Research**: Unlikely (Tailwind responsive patterns)
+**Plans**: TBD
+
+Plans:
+- [ ] 16-01: TBD
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
+Phases execute in numeric order: 1 → 2 → ... → 12 → 13 → 14 → 15 → 16
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -85,3 +148,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 9. MCP Server Sync | v2.0 | 1/1 | Complete | 2026-01-14 |
 | 10. Webapp Sync | v2.0 | 1/1 | Complete | 2026-01-14 |
 | 11. Advanced Capture | v2.0 | 2/2 | Complete | 2026-01-14 |
+| 12. LLM Theme Selection | v3.0 | 0/? | Not started | - |
+| 13. Dashboard Redesign | v3.0 | 0/? | Not started | - |
+| 14. Follow-up Functionality | v3.0 | 0/? | Not started | - |
+| 15. Full-text Search | v3.0 | 0/? | Not started | - |
+| 16. Responsive Mobile | v3.0 | 0/? | Not started | - |
