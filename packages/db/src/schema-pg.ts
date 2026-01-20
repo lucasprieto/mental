@@ -1,4 +1,14 @@
-import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, index, customType } from "drizzle-orm/pg-core";
+import { SQL, sql } from "drizzle-orm";
+
+/**
+ * Custom type for PostgreSQL tsvector (full-text search)
+ */
+const tsvector = customType<{ data: string }>({
+  dataType() {
+    return "tsvector";
+  },
+});
 
 /**
  * Mental items table (Postgres version) - stores captured thoughts from sessions
@@ -39,7 +49,16 @@ export const mentalItems = pgTable("mental_items", {
 
   /** Timestamp when resolved (nullable) */
   resolvedAt: timestamp("resolved_at", { mode: "date" }),
-});
+
+  /** Generated tsvector for full-text search (auto-maintained) */
+  search: tsvector("search").generatedAlwaysAs(
+    (): SQL =>
+      sql`setweight(to_tsvector('english', ${mentalItems.title}), 'A') ||
+          setweight(to_tsvector('english', ${mentalItems.content}), 'B')`
+  ),
+}, (t) => [
+  index("idx_mental_items_search").using("gin", t.search),
+]);
 
 /** Type for selecting a mental item (Postgres) */
 export type MentalItemRowPg = typeof mentalItems.$inferSelect;

@@ -1,4 +1,4 @@
-import { getItemsClient } from "@/lib/api";
+import { getItemsClient, getFollowupsClient } from "@/lib/api";
 import { notFound } from "next/navigation";
 import { ItemDetailClient } from "@/components/ItemDetailClient";
 
@@ -10,9 +10,10 @@ interface PageProps {
 
 export default async function ItemDetail({ params }: PageProps) {
   const { id } = await params;
-  const client = getItemsClient();
+  const itemsClient = getItemsClient();
+  const followupsClient = getFollowupsClient();
 
-  const res = await client[":id"].$get({ param: { id } });
+  const res = await itemsClient[":id"].$get({ param: { id } });
 
   if (!res.ok) {
     notFound();
@@ -25,10 +26,17 @@ export default async function ItemDetail({ params }: PageProps) {
     notFound();
   }
 
+  // Fetch follow-ups for this item
+  const followupsRes = await followupsClient.item[":itemId"].$get({
+    param: { itemId: id },
+  });
+
+  const followups = followupsRes.ok ? await followupsRes.json() : [];
+
   const item = {
     ...itemData,
     status: itemData.status as "open" | "resolved",
   };
 
-  return <ItemDetailClient item={item} />;
+  return <ItemDetailClient item={item} followups={followups} />;
 }

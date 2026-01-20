@@ -20,7 +20,7 @@ export { getDbPg } from "./client-pg";
 export type { DbClientPg } from "./client-pg";
 
 // Re-export drizzle-orm utilities to avoid version conflicts in consumers
-export { asc, desc, eq } from "drizzle-orm";
+export { asc, desc, eq, sql } from "drizzle-orm";
 
 // Re-export cuid2 for ID generation
 export { createId } from "@paralleldrive/cuid2";

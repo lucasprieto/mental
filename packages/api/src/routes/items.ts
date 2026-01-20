@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import { eq, desc, pg, createId } from "@mental/db";
+import { eq, desc, pg, createId, sql } from "@mental/db";
 import { getDb } from "../db.js";
 
 const itemsRoute = new Hono()
@@ -33,6 +33,34 @@ const itemsRoute = new Hono()
       }
 
       return c.json(filtered);
+    }
+  )
+  // GET /search - Full-text search across items
+  .get(
+    "/search",
+    zValidator(
+      "query",
+      z.object({
+        q: z.string().optional(),
+      })
+    ),
+    async (c) => {
+      const q = c.req.valid("query").q;
+      if (!q || q.trim() === "") {
+        return c.json([]);
+      }
+
+      const db = getDb();
+      const searchQuery = sql`plainto_tsquery('english', ${q})`;
+
+      const results = await db
+        .select()
+        .from(pg.mentalItems)
+        .where(sql`${pg.mentalItems.search} @@ ${searchQuery}`)
+        .orderBy(sql`ts_rank(${pg.mentalItems.search}, ${searchQuery}) DESC`)
+        .limit(50);
+
+      return c.json(results);
     }
   )
   // GET /:id - Get single item by ID
