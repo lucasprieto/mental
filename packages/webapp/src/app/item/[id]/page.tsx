@@ -1,12 +1,16 @@
 import { getItemsClient, getFollowupsClient } from "@/lib/api";
 import { notFound } from "next/navigation";
-import { ItemDetailClient } from "@/components/ItemDetailClient";
+import { ItemDetailClient, Item, FollowUp } from "@/components/ItemDetailClient";
 
 export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
+
+// API response types
+type ItemResponse = Item | { error: string };
+type FollowupsResponse = FollowUp[];
 
 export default async function ItemDetail({ params }: PageProps) {
   const { id } = await params;
@@ -19,7 +23,7 @@ export default async function ItemDetail({ params }: PageProps) {
     notFound();
   }
 
-  const itemData = await res.json();
+  const itemData = await res.json() as ItemResponse;
 
   // Handle error response (API returns { error: string } on 404)
   if ("error" in itemData) {
@@ -31,12 +35,9 @@ export default async function ItemDetail({ params }: PageProps) {
     param: { itemId: id },
   });
 
-  const followups = followupsRes.ok ? await followupsRes.json() : [];
+  const followups: FollowUp[] = followupsRes.ok
+    ? await followupsRes.json() as FollowupsResponse
+    : [];
 
-  const item = {
-    ...itemData,
-    status: itemData.status as "open" | "resolved",
-  };
-
-  return <ItemDetailClient item={item} followups={followups} />;
+  return <ItemDetailClient item={itemData} followups={followups} />;
 }

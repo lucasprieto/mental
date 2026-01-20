@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { EditItemForm } from "./EditItemForm";
 
-interface Item {
+export interface Item {
   id: string;
   title: string;
   content: string;
@@ -17,7 +17,7 @@ interface Item {
   resolvedAt: Date | string | null;
 }
 
-interface FollowUp {
+export interface FollowUp {
   id: string;
   itemId: string;
   content: string;
