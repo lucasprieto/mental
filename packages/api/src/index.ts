@@ -5,6 +5,7 @@ import { serve } from "@hono/node-server";
 import itemsRoute from "./routes/items.js";
 import sessionsRoute from "./routes/sessions.js";
 import followupsRoute from "./routes/followups.js";
+import apiKeysRoute from "./routes/api-keys.js";
 
 const app = new Hono();
 
@@ -21,6 +22,7 @@ app.get("/health", (c) =>
 app.route("/items", itemsRoute);
 app.route("/sessions", sessionsRoute);
 app.route("/followups", followupsRoute);
+app.route("/api-keys", apiKeysRoute);
 
 // Export type for RPC client
 export type AppType = typeof app;
@@ -29,6 +31,7 @@ export type AppType = typeof app;
 export type { ItemsRoute } from "./routes/items.js";
 export type { SessionsRoute } from "./routes/sessions.js";
 export type { FollowupsRoute } from "./routes/followups.js";
+export type { ApiKeysRoute } from "./routes/api-keys.js";
 
 // Start server
 const port = parseInt(process.env.PORT || "3000");
