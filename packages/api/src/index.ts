@@ -7,18 +7,34 @@ import sessionsRoute from "./routes/sessions.js";
 import followupsRoute from "./routes/followups.js";
 import apiKeysRoute from "./routes/api-keys.js";
 
+// Auth middleware (not applied globally yet - routes will opt-in)
+// import { auth } from "./middleware/auth.js";
+//
+// To protect routes, apply middleware to specific paths:
+//   app.use("/items/*", auth);
+//   app.use("/sessions/*", auth);
+//
+// Then access user info in handlers:
+//   const userId = c.get("userId");
+//   const authMethod = c.get("authMethod"); // "jwt" | "api_key"
+//
+// Note: Auth enforcement will be enabled in Phase 19/20 after:
+// 1. Database migration runs (creates users/api_keys tables)
+// 2. Auth0 users created on first login
+// 3. MCP configured to use API keys
+
 const app = new Hono();
 
 // Middleware
 app.use("*", logger());
 app.use("*", cors());
 
-// Health check
+// Health check (unauthenticated)
 app.get("/health", (c) =>
   c.json({ status: "ok", timestamp: new Date().toISOString() })
 );
 
-// Routes
+// Routes (currently unauthenticated - auth will be enabled in Phase 19/20)
 app.route("/items", itemsRoute);
 app.route("/sessions", sessionsRoute);
 app.route("/followups", followupsRoute);
