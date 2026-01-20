@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-01-14)
 ## Current Position
 
 Phase: 18 of 20 (Auth0 Integration)
-Plan: 2 of 3 complete
-Status: In progress
-Last activity: 2026-01-20 — Completed 18-02-PLAN.md
+Plan: 3 of 3 complete
+Status: Phase complete
+Last activity: 2026-01-20 — Completed 18-03-PLAN.md
 
 Progress: ██░░░░░░░░░░ 50% (v4.0)
 
@@ -30,7 +30,7 @@ Progress: ██░░░░░░░░░░ 50% (v4.0)
 | v1.0 MVP | 1-6 | 13 | ~35 min |
 | v2.0 Cloud Sync | 7-11 | 8 | ~25 min |
 | v3.0 UX & Intelligence | 12-16 | TBD | - |
-| v4.0 Distribution & Auth | 17-20 | 3 | 10 min |
+| v4.0 Distribution & Auth | 17-20 | 4 | 14 min |
 
 ## Accumulated Context
 
@@ -48,6 +48,8 @@ All key decisions logged in PROJECT.md Key Decisions table.
 - mental_ prefix for API keys
 - Hard delete for key removal
 - nextjs-auth0 v4 middleware pattern (not v3 route handler)
+- Combined auth middleware (JWT first, then API key)
+- Routes not protected yet (Phase 19/20)
 
 ### Deferred Issues
 
@@ -71,5 +73,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-20
-Stopped at: Completed 18-02-PLAN.md
+Stopped at: Completed 18-03-PLAN.md, Phase 18 complete
 Resume file: None

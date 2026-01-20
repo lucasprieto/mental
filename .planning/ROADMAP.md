@@ -96,7 +96,7 @@ Plans:
 **Milestone Goal:** Make Mental distributable and multi-user with npm package and Auth0 authentication
 
 - [x] **Phase 17: npm Package** - Publish MCP server to npm (completed 2026-01-20)
-- [ ] **Phase 18: Auth0 Integration** - User authentication and API keys
+- [x] **Phase 18: Auth0 Integration** - User authentication and API keys (completed 2026-01-20)
 - [ ] **Phase 19: Webapp Deployment** - Deploy webapp to Vercel with login
 - [ ] **Phase 20: User Management** - Dashboard for API key management
 
@@ -110,17 +110,17 @@ Plans:
 Plans:
 - [x] 17-01: Configure tsup, CLI entry, README for npm publishing
 
-#### Phase 18: Auth0 Integration
+#### Phase 18: Auth0 Integration ✅
 
 **Goal**: Add Auth0 for user authentication, generate per-user API keys
 **Depends on**: Phase 17
 **Research**: Complete (18-RESEARCH.md)
-**Status**: In progress
+**Status**: Complete (2026-01-20)
 
 Plans:
 - [x] 18-01: Database schema + API key infrastructure
 - [x] 18-02: Webapp Auth0 integration (nextjs-auth0 v4)
-- [ ] 18-03: API JWT middleware
+- [x] 18-03: API JWT middleware
 
 #### Phase 19: Webapp Deployment
 
