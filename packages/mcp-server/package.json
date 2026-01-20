@@ -1,22 +1,47 @@
 {
-  "name": "@mental/mcp-server",
+  "name": "@go-mental/mcp",
   "version": "1.0.0",
+  "description": "MCP server for Mental thought capture system - capture thoughts from Claude Code and Cursor",
   "type": "module",
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "inspect": "npx @modelcontextprotocol/inspector node dist/index.js"
+  "main": "dist/cli.js",
+  "bin": {
+    "go-mental-mcp": "./dist/cli.js"
   },
-  "dependencies": {
-    "@mental/api": "workspace:*",
-    "@modelcontextprotocol/sdk": "^1.0.0",
-    "hono": "^4.6.0",
-    "zod": "^3.23.8"
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "start": "node dist/cli.js",
+    "inspect": "npx @modelcontextprotocol/inspector node dist/cli.js"
+  },
+  "keywords": [
+    "mcp",
+    "mental",
+    "thought-capture",
+    "claude-code",
+    "cursor",
+    "model-context-protocol",
+    "ai-assistant"
+  ],
+  "author": "Lucas Prieto",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasprieto/mental.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lucasprieto/mental/issues"
+  },
+  "homepage": "https://github.com/lucasprieto/mental#readme",
+  "engines": {
+    "node": ">=18"
   },
   "devDependencies": {
     "@modelcontextprotocol/inspector": "^0.11.0",
     "@types/node": "^22.10.1",
+    "tsup": "^8.5.1",
     "typescript": "^5.7.2"
   }
 }
