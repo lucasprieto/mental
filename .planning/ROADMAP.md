@@ -114,12 +114,13 @@ Plans:
 
 **Goal**: Add Auth0 for user authentication, generate per-user API keys
 **Depends on**: Phase 17
-**Research**: Likely (Auth0 SDK, JWT patterns)
-**Research topics**: Auth0 React SDK, API middleware, key generation
-**Plans**: TBD
+**Research**: Complete (18-RESEARCH.md)
+**Status**: In progress
 
 Plans:
-- [ ] 18-01: TBD
+- [x] 18-01: Database schema + API key infrastructure
+- [ ] 18-02: Webapp Auth0 integration (nextjs-auth0 v4)
+- [ ] 18-03: API JWT middleware
 
 #### Phase 19: Webapp Deployment
 
