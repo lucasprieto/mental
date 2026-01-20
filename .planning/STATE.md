@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-14)
 ## Current Position
 
 Phase: 17 of 20 (npm Package)
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-01-14 — Created v4.0 milestone
+Plan: 1 of 1 complete
+Status: Phase complete
+Last activity: 2026-01-20 — Completed 17-01-PLAN.md
 
-Progress: ░░░░░░░░░░░░ 0% (v4.0)
+Progress: █░░░░░░░░░░░ 25% (v4.0)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 21 (13 v1.0 + 8 v2.0)
-- Average duration: 2.6 min
-- Total execution time: ~1 hour
+- Total plans completed: 22 (13 v1.0 + 8 v2.0 + 1 v4.0)
+- Average duration: ~3 min
+- Total execution time: ~1 hour 5 min
 
 **By Milestone:**
 
@@ -30,12 +30,18 @@ Progress: ░░░░░░░░░░░░ 0% (v4.0)
 | v1.0 MVP | 1-6 | 13 | ~35 min |
 | v2.0 Cloud Sync | 7-11 | 8 | ~25 min |
 | v3.0 UX & Intelligence | 12-16 | TBD | - |
+| v4.0 Distribution & Auth | 17-20 | 1 | 5 min |
 
 ## Accumulated Context
 
 ### Decisions
 
 All key decisions logged in PROJECT.md Key Decisions table.
+
+**Phase 17:**
+- tsup for npm package bundling with external runtime dependencies
+- @go-mental/mcp as npm package name
+- AnyRoute typing to remove workspace dependency
 
 ### Deferred Issues
 
@@ -58,6 +64,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-01-14
-Stopped at: v4.0 milestone created, ready for Phase 17 (npm Package)
+Last session: 2026-01-20
+Stopped at: Completed 17-01-PLAN.md, Phase 17 complete
 Resume file: None

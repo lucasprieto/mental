@@ -95,20 +95,20 @@ Plans:
 
 **Milestone Goal:** Make Mental distributable and multi-user with npm package and Auth0 authentication
 
-- [ ] **Phase 17: npm Package** - Publish MCP server to npm
+- [x] **Phase 17: npm Package** - Publish MCP server to npm (completed 2026-01-20)
 - [ ] **Phase 18: Auth0 Integration** - User authentication and API keys
 - [ ] **Phase 19: Webapp Deployment** - Deploy webapp to Vercel with login
 - [ ] **Phase 20: User Management** - Dashboard for API key management
 
-#### Phase 17: npm Package
+#### Phase 17: npm Package ✅
 
-**Goal**: Publish MCP server to npm so users can run `npx mental-mcp`
+**Goal**: Publish MCP server to npm so users can run `npx @go-mental/mcp`
 **Depends on**: v3.0 complete
-**Research**: Unlikely (standard npm patterns)
-**Plans**: TBD
+**Research**: None needed (standard npm patterns)
+**Status**: Complete (2026-01-20)
 
 Plans:
-- [ ] 17-01: TBD (run /gsd:plan-phase 17 to break down)
+- [x] 17-01: Configure tsup, CLI entry, README for npm publishing
 
 #### Phase 18: Auth0 Integration
 
@@ -165,7 +165,7 @@ Phases execute in numeric order: 1 → 2 → ... → 16 → 17 → 18 → 19 →
 | 14. Follow-up Functionality | v3.0 | 2/2 | Complete | 2026-01-14 |
 | 15. Full-text Search | v3.0 | 2/2 | Complete | 2026-01-14 |
 | 16. Responsive Mobile | v3.0 | 1/1 | Complete | 2026-01-14 |
-| 17. npm Package | v4.0 | 0/? | Not started | - |
+| 17. npm Package | v4.0 | 1/1 | Complete | 2026-01-20 |
 | 18. Auth0 Integration | v4.0 | 0/? | Not started | - |
 | 19. Webapp Deployment | v4.0 | 0/? | Not started | - |
 | 20. User Management | v4.0 | 0/? | Not started | - |
