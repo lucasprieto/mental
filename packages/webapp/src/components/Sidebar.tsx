@@ -2,14 +2,20 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
+import { UserMenu } from "./UserMenu";
 
 interface SidebarProps {
   themes: string[];
   activeStatus: "all" | "open" | "resolved";
   activeTheme: string | null;
+  user?: {
+    email?: string;
+    name?: string;
+    picture?: string;
+  };
 }
 
-export function Sidebar({ themes, activeStatus, activeTheme }: SidebarProps) {
+export function Sidebar({ themes, activeStatus, activeTheme, user }: SidebarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
@@ -67,7 +73,7 @@ export function Sidebar({ themes, activeStatus, activeTheme }: SidebarProps) {
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 w-64 h-screen overflow-y-auto border-r border-gray-200 bg-white z-40
+          fixed top-0 left-0 w-64 h-screen flex flex-col border-r border-gray-200 bg-white z-40
           transform transition-transform duration-200 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0
@@ -88,7 +94,7 @@ export function Sidebar({ themes, activeStatus, activeTheme }: SidebarProps) {
         </div>
 
         {/* Filter sections */}
-        <nav className="p-4 space-y-6">
+        <nav className="flex-1 overflow-y-auto p-4 space-y-6">
           {/* Status filter */}
           <div>
             <h3 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">
@@ -141,6 +147,13 @@ export function Sidebar({ themes, activeStatus, activeTheme }: SidebarProps) {
             </div>
           )}
         </nav>
+
+        {/* User menu at bottom */}
+        {user && (
+          <div className="border-t border-gray-200 p-3">
+            <UserMenu user={user} />
+          </div>
+        )}
       </aside>
     </>
   );

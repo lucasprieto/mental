@@ -6,6 +6,7 @@ import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { DashboardActions } from "@/components/DashboardActions";
 import { SearchBar } from "@/components/SearchBar";
 import { Suspense } from "react";
+import { auth0 } from "@/lib/auth0";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +17,7 @@ interface PageProps {
 export default async function Dashboard({ searchParams }: PageProps) {
   const params = await searchParams;
   const client = getItemsClient();
+  const session = await auth0.getSession();
 
   // Parse filter params
   const statusFilter: "all" | "open" | "resolved" =
@@ -80,6 +82,7 @@ export default async function Dashboard({ searchParams }: PageProps) {
           themes={themes}
           activeStatus={statusFilter}
           activeTheme={themeFilter}
+          user={session?.user}
         />
       </Suspense>
 
