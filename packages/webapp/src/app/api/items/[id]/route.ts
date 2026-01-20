@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const API_URL = process.env.MENTAL_API_URL || "http://localhost:3000";
+import { getItemsClient } from "@/lib/api";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -53,10 +52,16 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       updates.resolution = resolution?.trim() || null;
     }
 
-    const res = await fetch(`${API_URL}/items/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updates),
+    const client = getItemsClient();
+    const res = await client[":id"].$put({
+      param: { id },
+      json: updates as {
+        title?: string;
+        content?: string;
+        theme?: string | null;
+        status?: "open" | "resolved";
+        resolution?: string | null;
+      },
     });
 
     const data = await res.json();

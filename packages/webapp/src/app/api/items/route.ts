@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const API_URL = process.env.MENTAL_API_URL || "http://localhost:3000";
+import { getItemsClient } from "@/lib/api";
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,14 +21,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const res = await fetch(`${API_URL}/items`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    const client = getItemsClient();
+    const res = await client.index.$post({
+      json: {
         title: title.trim(),
         content: content.trim(),
         theme: theme?.trim() || undefined,
-      }),
+      },
     });
 
     const data = await res.json();
