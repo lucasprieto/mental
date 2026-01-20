@@ -1,4 +1,4 @@
-import { getItemsClient, searchItems } from "@/lib/api";
+import { fetchItems, searchItems } from "@/lib/api";
 import { ItemList } from "@/components/ItemList";
 import { ItemCard } from "@/components/ItemCard";
 import { Sidebar } from "@/components/Sidebar";
@@ -16,7 +16,6 @@ interface PageProps {
 
 export default async function Dashboard({ searchParams }: PageProps) {
   const params = await searchParams;
-  const client = getItemsClient();
   const session = await auth0.getSession();
 
   // Parse filter params
@@ -28,13 +27,9 @@ export default async function Dashboard({ searchParams }: PageProps) {
   const searchQuery = params.q?.trim() || null;
 
   // Fetch items - use search endpoint if query present
-  let allItems;
-  if (searchQuery) {
-    allItems = await searchItems(searchQuery);
-  } else {
-    const res = await client.index.$get({ query: { status: "all", limit: "100" } });
-    allItems = await res.json();
-  }
+  const allItems = searchQuery
+    ? await searchItems(searchQuery)
+    : await fetchItems("all", 100);
 
   // Separate open and resolved items
   const allOpenItems = allItems
