@@ -9,7 +9,14 @@ export type {
   NewMentalItemRowPg,
   FollowUpRowPg,
   NewFollowUpRowPg,
+  UserRowPg,
+  NewUserRowPg,
+  ApiKeyRowPg,
+  NewApiKeyRowPg,
 } from "./schema-pg";
+
+// Direct exports for common tables (convenience)
+export { users, apiKeys } from "./schema-pg";
 
 // Client exports (SQLite)
 export { getDb } from "./client";

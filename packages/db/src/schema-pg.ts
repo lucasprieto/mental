@@ -88,3 +88,58 @@ export type FollowUpRowPg = typeof followUps.$inferSelect;
 
 /** Type for inserting a follow-up (Postgres) */
 export type NewFollowUpRowPg = typeof followUps.$inferInsert;
+
+/**
+ * Users table - stores user information linked to Auth0
+ */
+export const users = pgTable("users", {
+  /** Unique identifier (Auth0 sub claim) */
+  id: text("id").primaryKey(),
+
+  /** User email from Auth0 */
+  email: text("email").notNull(),
+
+  /** User display name (optional) */
+  name: text("name"),
+
+  /** Timestamp when created */
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+
+  /** Timestamp when last updated */
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+});
+
+/** Type for selecting a user (Postgres) */
+export type UserRowPg = typeof users.$inferSelect;
+
+/** Type for inserting a user (Postgres) */
+export type NewUserRowPg = typeof users.$inferInsert;
+
+/**
+ * API Keys table - stores hashed API keys for MCP server authentication
+ */
+export const apiKeys = pgTable("api_keys", {
+  /** Unique identifier (cuid) */
+  id: text("id").primaryKey(),
+
+  /** Foreign key to users.id (no FK constraint yet - will add after migration) */
+  userId: text("user_id").notNull(),
+
+  /** SHA-256 hash of the raw API key */
+  keyHash: text("key_hash").notNull().unique(),
+
+  /** User-assigned name for the key */
+  name: text("name").notNull().default("Default Key"),
+
+  /** Timestamp when key was last used */
+  lastUsedAt: timestamp("last_used_at", { mode: "date" }),
+
+  /** Timestamp when created */
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+});
+
+/** Type for selecting an API key (Postgres) */
+export type ApiKeyRowPg = typeof apiKeys.$inferSelect;
+
+/** Type for inserting an API key (Postgres) */
+export type NewApiKeyRowPg = typeof apiKeys.$inferInsert;
