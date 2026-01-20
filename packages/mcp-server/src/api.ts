@@ -1,11 +1,23 @@
 import { hc } from "hono/client";
-import type { ItemsRoute, SessionsRoute, FollowupsRoute } from "@mental/api";
+
+/**
+ * API client configuration for Mental MCP server.
+ *
+ * Environment variable:
+ * - MENTAL_API_URL: URL of the Mental API server (default: http://localhost:3000)
+ *
+ * The API types are not strictly typed here to avoid workspace dependencies.
+ * The Hono RPC client will work correctly at runtime.
+ */
 
 const API_URL = process.env.MENTAL_API_URL || "http://localhost:3000";
 
-let itemsClient: ReturnType<typeof hc<ItemsRoute>> | null = null;
-let sessionsClient: ReturnType<typeof hc<SessionsRoute>> | null = null;
-let followupsClient: ReturnType<typeof hc<FollowupsRoute>> | null = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyRoute = any;
+
+let itemsClient: ReturnType<typeof hc<AnyRoute>> | null = null;
+let sessionsClient: ReturnType<typeof hc<AnyRoute>> | null = null;
+let followupsClient: ReturnType<typeof hc<AnyRoute>> | null = null;
 let initialized = false;
 
 function ensureInitialized() {
@@ -18,7 +30,7 @@ function ensureInitialized() {
 export function getItemsClient() {
   if (!itemsClient) {
     ensureInitialized();
-    itemsClient = hc<ItemsRoute>(`${API_URL}/items`);
+    itemsClient = hc<AnyRoute>(`${API_URL}/items`);
   }
   return itemsClient;
 }
@@ -26,7 +38,7 @@ export function getItemsClient() {
 export function getSessionsClient() {
   if (!sessionsClient) {
     ensureInitialized();
-    sessionsClient = hc<SessionsRoute>(`${API_URL}/sessions`);
+    sessionsClient = hc<AnyRoute>(`${API_URL}/sessions`);
   }
   return sessionsClient;
 }
@@ -34,7 +46,7 @@ export function getSessionsClient() {
 export function getFollowupsClient() {
   if (!followupsClient) {
     ensureInitialized();
-    followupsClient = hc<FollowupsRoute>(`${API_URL}/followups`);
+    followupsClient = hc<AnyRoute>(`${API_URL}/followups`);
   }
   return followupsClient;
 }

@@ -7,8 +7,12 @@ export default defineConfig({
   outDir: "dist",
   clean: true,
   bundle: true,
-  // Bundle all dependencies except Node.js builtins
-  noExternal: [/.*/],
+  // Keep runtime dependencies external - they'll be installed by npm
+  external: [
+    "@modelcontextprotocol/sdk",
+    "zod",
+    "hono",
+  ],
   // Add shims for CommonJS compatibility if needed
   shims: true,
   // Generate sourcemaps for debugging
