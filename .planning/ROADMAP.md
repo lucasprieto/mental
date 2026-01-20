@@ -119,7 +119,7 @@ Plans:
 
 Plans:
 - [x] 18-01: Database schema + API key infrastructure
-- [ ] 18-02: Webapp Auth0 integration (nextjs-auth0 v4)
+- [x] 18-02: Webapp Auth0 integration (nextjs-auth0 v4)
 - [ ] 18-03: API JWT middleware
 
 #### Phase 19: Webapp Deployment
