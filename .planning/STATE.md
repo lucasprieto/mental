@@ -9,19 +9,19 @@ See: .planning/PROJECT.md (updated 2026-01-14)
 
 ## Current Position
 
-Phase: 18 of 20 (Auth0 Integration)
-Plan: 3 of 3 complete
-Status: Phase complete
-Last activity: 2026-01-20 — Completed 18-03-PLAN.md
+Phase: 20 of 20 (User Management)
+Plan: 0 of ? complete
+Status: Ready to plan
+Last activity: 2026-01-20 — Completed Phase 19 (webapp deployed to Vercel)
 
-Progress: ██░░░░░░░░░░ 50% (v4.0)
+Progress: █████████░░░ 75% (v4.0)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 22 (13 v1.0 + 8 v2.0 + 1 v4.0)
+- Total plans completed: 23 (13 v1.0 + 8 v2.0 + 2 v4.0)
 - Average duration: ~3 min
-- Total execution time: ~1 hour 5 min
+- Total execution time: ~1 hour 50 min
 
 **By Milestone:**
 
@@ -30,7 +30,7 @@ Progress: ██░░░░░░░░░░ 50% (v4.0)
 | v1.0 MVP | 1-6 | 13 | ~35 min |
 | v2.0 Cloud Sync | 7-11 | 8 | ~25 min |
 | v3.0 UX & Intelligence | 12-16 | TBD | - |
-| v4.0 Distribution & Auth | 17-20 | 4 | 14 min |
+| v4.0 Distribution & Auth | 17-20 | 5 | ~59 min |
 
 ## Accumulated Context
 
@@ -50,6 +50,12 @@ All key decisions logged in PROJECT.md Key Decisions table.
 - nextjs-auth0 v4 middleware pattern (not v3 route handler)
 - Combined auth middleware (JWT first, then API key)
 - Routes not protected yet (Phase 19/20)
+
+**Phase 19:**
+- Remove @mental/api workspace dependency (Vercel can't resolve workspace types)
+- Plain fetch instead of Hono RPC client (simpler, no build coupling)
+- Deploy from monorepo root with pnpm filter commands
+- Webapp fully independent from API package
 
 ### Deferred Issues
 
@@ -73,5 +79,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-20
-Stopped at: Completed 18-03-PLAN.md, Phase 18 complete
+Stopped at: Completed 19-01-PLAN.md, Phase 19 complete (webapp at mental-webapp.vercel.app)
 Resume file: None
